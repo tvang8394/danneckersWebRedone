@@ -25,7 +25,7 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import loginPageStyle from "assets/jss/nextjs-material-kit-pro/pages/loginPageStyle.js";
 
 import image from "assets/img/bg7.jpg";
-
+import storeFront from 'assets/img/storeFront.svg'
 const useStyles = makeStyles(loginPageStyle);
 
 export default function LoginPage() {
@@ -45,7 +45,7 @@ export default function LoginPage() {
       <div
         className={classes.pageHeader}
         style={{
-          backgroundImage: "url(" + image + ")",
+          backgroundImage: "url(" + storeFront + ")",
           backgroundSize: "cover",
           backgroundPosition: "top center"
         }}

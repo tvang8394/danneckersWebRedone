@@ -20,6 +20,10 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import { Provider } from "react-redux";
+import { createWrapper } from "next-redux-wrapper";
+import { store, persistor } from "../store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 import PageChange from "components/PageChange/PageChange.js";
 
@@ -29,7 +33,7 @@ import "assets/css/react-demo.css";
 
 import "animate.css/animate.min.css";
 
-Router.events.on("routeChangeStart", url => {
+Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
   document.body.classList.add("body-page-transition");
   ReactDOM.render(
@@ -46,7 +50,7 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-export default class MyApp extends App {
+class MyApp extends App {
   componentDidMount() {
     let comment = document.createComment(`
 
@@ -83,8 +87,15 @@ export default class MyApp extends App {
         <Head>
           <title>Danneckers | Liquor and Grocery</title>
         </Head>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        </Provider>
       </React.Fragment>
     );
   }
 }
+const makestore = () => store;
+const wrapper = createWrapper(makestore);
+export default wrapper.withRedux(MyApp);

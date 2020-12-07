@@ -15,7 +15,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Mail from "@material-ui/icons/Mail";
 
 import bg7 from "assets/img/bg7.jpg";
-
+import storeFront from 'assets/img/storeFront.svg'
 import styles from "assets/jss/nextjs-material-kit-pro/pages/componentsSections/preFooter.js";
 
 const useStyles = makeStyles(styles);
@@ -245,7 +245,7 @@ export default function SectionPreFooter() {
           classes.subscribeLine,
           classes.subscribeLineImage
         )}
-        style={{ backgroundImage: `url(${bg7})` }}
+        style={{ backgroundImage: `url(${storeFront})` }}
       >
         <div className={classes.container}>
           <GridContainer>
