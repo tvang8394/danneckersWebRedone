@@ -137,6 +137,22 @@ const signupPageStyle = {
     height: "18px",
     top: "3px",
     position: "relative"
+  },
+  rightLinks: {
+    float: "right!important",
+    "& ul": {
+      marginBottom: 0,
+      marginTop: 10,
+      padding: 0,
+      listStyle: "none",
+      height: 38,
+      "& li": {
+        display: "inline-block",
+      },
+    },
+    "& i": {
+      fontSize: "20px",
+    },
   }
 };
 

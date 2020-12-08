@@ -104,7 +104,7 @@ export default function PresentationPage({
         content={
           <div>
             <div className={classes.left}>
-              <a href="/" target="_blank" className={classes.footerBrand}>
+              <a href="/"  className={classes.footerBrand}>
                 Danneckers Liquor & Grocery
               </a>
             </div>

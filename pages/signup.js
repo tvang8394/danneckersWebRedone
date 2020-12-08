@@ -11,11 +11,10 @@ import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Timeline from "@material-ui/icons/Timeline";
 import Code from "@material-ui/icons/Code";
-import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import Check from "@material-ui/icons/Check";
-import Favorite from "@material-ui/icons/Favorite";
+import AttachMoney from "@material-ui/icons/AttachMoney";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -27,15 +26,24 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import InfoArea from "components/InfoArea/InfoArea.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import { Formik } from "formik";
+import MyFooter from "../components/MyFooter";
 
 import signupPageStyle from "assets/jss/nextjs-material-kit-pro/pages/signupPageStyle.js";
-
+import { useDispatch } from "react-redux";
 import image from "assets/img/bg7.jpg";
-
+import storeFront from "assets/img/storeFront.svg";
+import { loadFirebase } from "../components/Firebase";
+import { userSignIn } from "../store/actions/userAction";
+import Router from "next/router";
 const useStyles = makeStyles(signupPageStyle);
 
 export default function SignUpPage({ ...rest }) {
   const [checked, setChecked] = React.useState([1]);
+  const [fullName, setFullName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -51,20 +59,42 @@ export default function SignUpPage({ ...rest }) {
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
-
+  const handleSubmit = () => {
+    let firebase = loadFirebase();
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((user) => {
+        if (user) {
+          var newUser = firebase.auth().currentUser;
+          newUser
+            .updateProfile({
+              displayName: `${fullName} `,
+            })
+            .then(() => {
+              //update success
+              dispatch(userSignIn(user));
+            });
+          Router.push('/danneckers')  
+          setEmail("");
+          setPassword("");
+          setFullName("");
+        }
+      });
+  };
   return (
     <div>
       <Header
         absolute
-        color="transparent"
-        brand="NextJS Material Kit PRO"
+        color="dark"
+        brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="dark" />}
         {...rest}
       />
       <div
         className={classes.pageHeader}
         style={{
-          backgroundImage: "url(" + image + ")",
+          backgroundImage: "url(" + storeFront + ")",
           backgroundSize: "cover",
           backgroundPosition: "top center",
         }}
@@ -73,7 +103,12 @@ export default function SignUpPage({ ...rest }) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={10} md={10}>
               <Card className={classes.cardSignup}>
-                <h2 className={classes.cardTitle}>Dannecker's Sign Up Form</h2>
+                <h2
+                  className={classes.cardTitle}
+                  style={{ marginBottom: "44px" }}
+                >
+                  Dannecker's Sign Up Form
+                </h2>
                 <CardBody>
                   <GridContainer justify="center">
                     <GridItem xs={12} sm={5} md={5}>
@@ -91,8 +126,17 @@ export default function SignUpPage({ ...rest }) {
                         icon={Code}
                         iconColor="primary"
                       />
+                      <InfoArea
+                        className={classes.infoArea}
+                        title="Earn Rewards"
+                        description="Earn points on every penny that you spend here"
+                        icon={AttachMoney}
+                        iconColor="success"
+                      />
                     </GridItem>
+
                     <GridItem xs={12} sm={5} md={5}>
+                      {/** 
                       <div className={classes.textCenter}>
                         <Button justIcon round color="twitter">
                           <i className={classes.socials + " fab fa-twitter"} />
@@ -107,6 +151,8 @@ export default function SignUpPage({ ...rest }) {
                         {` `}
                         <h4 className={classes.socialTitle}>or be classical</h4>
                       </div>
+                      */}
+
                       <form className={classes.form}>
                         <CustomInput
                           formControlProps={{
@@ -122,7 +168,13 @@ export default function SignUpPage({ ...rest }) {
                                 <Face className={classes.inputAdornmentIcon} />
                               </InputAdornment>
                             ),
-                            placeholder: "First Name...",
+                            type: "text",
+                            placeholder: "Full Name...",
+                            value: fullName,
+                            onChange: (e) => {
+                              setFullName(e.target.value);
+                            },
+                            name: "firtName",
                           }}
                         />
                         <CustomInput
@@ -139,7 +191,13 @@ export default function SignUpPage({ ...rest }) {
                                 <Email className={classes.inputAdornmentIcon} />
                               </InputAdornment>
                             ),
+                            type: "email",
                             placeholder: "Email...",
+                            name: "email",
+                            value: email,
+                            onChange: (e) => {
+                              setEmail(e.target.value);
+                            },
                           }}
                         />
                         <CustomInput
@@ -158,7 +216,12 @@ export default function SignUpPage({ ...rest }) {
                                 </Icon>
                               </InputAdornment>
                             ),
+                            type: "password",
                             placeholder: "Password...",
+                            value: password,
+                            onChange: (e) => {
+                              setPassword(e.target.value);
+                            },
                           }}
                         />
                         <FormControlLabel
@@ -188,7 +251,7 @@ export default function SignUpPage({ ...rest }) {
                           }
                         />
                         <div className={classes.textCenter}>
-                          <Button round color="primary">
+                          <Button round color="primary" onClick={handleSubmit}>
                             Get started
                           </Button>
                         </div>
@@ -200,72 +263,7 @@ export default function SignUpPage({ ...rest }) {
             </GridItem>
           </GridContainer>
         </div>
-
-        <Footer
-          theme="white"
-          content={
-            <div>
-              <div className={classes.left}>
-                <a href="/" target="_blank" className={classes.footerBrand}>
-                  Danneckers Liquor & Grocery
-                </a>
-              </div>
-              <div className={classes.pullCenter}>
-                <List className={classes.list}>
-                  <ListItem className={classes.inlineBlock}>
-                    <a href="/" target="_blank" className={classes.block}>
-                      About us
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a href="/" className={classes.block}>
-                      Blog
-                    </a>
-                  </ListItem>
-                </List>
-              </div>
-              <div className={classes.rightLinks}>
-                <ul>
-                  <li>
-                    <Button
-                      href="/"
-                      target="_blank"
-                      color="facebook"
-                      justIcon
-                      simple
-                    >
-                    
-                      <i className="fab fa-facebook" />
-                    </Button>
-                  </li>
-                  <li>
-                    <Button
-                      href="/"
-                      target="_blank"
-                      color="twitter"
-                      justIcon
-                      simple
-                    >
-                      <i className="fab fa-twitter" />
-                    </Button>
-                  </li>
-
-                  <li>
-                    <Button
-                      href="/"
-                      target="_blank"
-                      color="instagram"
-                      justIcon
-                      simple
-                    >
-                      <i className="fab fa-instagram" />
-                    </Button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          }
-        />
+        <MyFooter />
       </div>
     </div>
   );

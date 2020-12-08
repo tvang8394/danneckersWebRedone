@@ -19,10 +19,15 @@ import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksStyle.js";
+import { useSelector, useDispatch } from "react-redux";
+import { loadFirebase } from "../Firebase";
+import { userSignIn } from "../../store/actions/userAction";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  const dispatch = useDispatch();
+
   const easeInOutQuad = (t, b, c, d) => {
     t /= d / 2;
     if (t < 1) return (c / 2) * t * t + b;
@@ -64,6 +69,22 @@ export default function HeaderLinks(props) {
 
   const { dropdownHoverColor } = props;
   const classes = useStyles();
+  const { user } = useSelector((state) => state.user);
+
+  const handleLogout = () => {
+    let firebase = loadFirebase();
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // Sign-out successful.
+        dispatch(userSignIn(null));
+      })
+      .catch(function (error) {
+        // An error happened.
+      });
+  };
+
   return (
     <List className={classes.list + " " + classes.mlAuto}>
       <ListItem className={classes.listItem}>
@@ -141,6 +162,64 @@ export default function HeaderLinks(props) {
           </Button>
         </Hidden>
       </ListItem>
+
+      {user ? (
+        <ListItem className={classes.listItem}>
+          <Link href="/">
+            <Button
+              color={"white"}
+              target="_blank"
+              className={classes.navButton}
+              round
+              style={{ marginRight: "20px", marginLeft: "20px" }}
+            >
+              View Account
+            </Button>
+          </Link>
+        </ListItem>
+      ) : (
+        <ListItem className={classes.listItem}>
+          <Link href="/login">
+            <Button
+              color={"white"}
+              target="_blank"
+              className={classes.navButton}
+              round
+              style={{ marginRight: "20px", marginLeft: "20px" }}
+            >
+              Login
+            </Button>
+          </Link>
+        </ListItem>
+      )}
+
+      {user ? (
+        <ListItem className={classes.listItem}>
+          <Button
+            color={"white"}
+            className={classes.navButton}
+            round
+            style={{ marginRight: "20px" }}
+            onClick={handleLogout}
+          >
+            LogOut
+          </Button>
+        </ListItem>
+      ) : (
+        <ListItem className={classes.listItem}>
+          <Link href="/signup">
+            <Button
+              color={"white"}
+              target="_blank"
+              className={classes.navButton}
+              round
+              style={{ marginRight: "20px" }}
+            >
+              Sign Up
+            </Button>
+          </Link>
+        </ListItem>
+      )}
     </List>
   );
 }
