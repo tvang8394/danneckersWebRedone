@@ -11,6 +11,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 // @material-ui icons
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import Remove from "@material-ui/icons/Remove";
+import Add from "@material-ui/icons/Add";
+import MuiAlert from "@material-ui/lab/Alert";
 import Check from "@material-ui/icons/Check";
 // core components
 import Accordion from "components/Accordion/Accordion.js";
@@ -21,21 +24,23 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
-
+import Snackbar from "@material-ui/core/Snackbar";
 import suit1 from "assets/img/examples/suit-1.jpg";
-import suit2 from "assets/img/examples/suit-2.jpg";
-import suit3 from "assets/img/examples/suit-3.jpg";
-import suit4 from "assets/img/examples/suit-4.jpg";
-import suit5 from "assets/img/examples/suit-5.jpg";
-import suit6 from "assets/img/examples/suit-6.jpg";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../store/actions/addItemAction";
 
 import styles from "assets/jss/nextjs-material-kit-pro/pages/ecommerceSections/productsStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function SectionProducts({ id, query }) {
-  const [checked, setChecked] = React.useState([1, 9, 27]);
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
+export default function SectionProducts({ id, query }) {
+  const dispatch = useDispatch();
+  const [checked, setChecked] = React.useState([1, 9, 27]);
+  const [open, setOpen] = React.useState(false);
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -65,6 +70,27 @@ export default function SectionProducts({ id, query }) {
     }
     return price;
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleAddtoCart = (name, price, qty, id, setQty) => {
+    const item = {
+      name,
+      price,
+      qty,
+      id,
+    };
+    dispatch(addItem(item));
+    setQty(1);
+    setOpen(true);
+  };
+
   return (
     <div className={classes.section}>
       <div className={classes.container}>
@@ -272,6 +298,8 @@ export default function SectionProducts({ id, query }) {
           <GridItem md={9} sm={9}>
             <GridContainer>
               {query.map((item) => {
+                const [qty, setQty] = React.useState(1);
+                const newPrice = priceFormat(item.price);
                 return (
                   <>
                     {/* start of each item 1*/}
@@ -288,17 +316,56 @@ export default function SectionProducts({ id, query }) {
                           </a>
                           <p className={classes.description}></p>
                         </CardBody>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <h4>Qty: {qty}</h4>
+                          <div className={classes.buttonGroup}>
+                            <Button
+                              color="info"
+                              size="sm"
+                              round
+                              className={classes.firstButton}
+                              onClick={() => setQty(qty - 1)}
+                            >
+                              <Remove />
+                            </Button>
+                            <Button
+                              color="info"
+                              size="sm"
+                              round
+                              className={classes.lastButton}
+                              onClick={() => setQty(qty + 1)}
+                            >
+                              <Add />
+                            </Button>
+                          </div>
+                        </div>
                         <CardFooter
                           plain
                           className={classes.justifyContentBetween}
                         >
                           <div className={classes.priceContainer}>
-                            <span className={classes.price}>
-                              {" "}
-                              ${priceFormat(item.price)}
-                            </span>
+                            <span className={classes.price}> ${newPrice}</span>
                           </div>
-                          <Button color="rose" className={classes.pullRight}>
+
+                          <Button
+                            color="info"
+                            className={classes.pullRight}
+                            onClick={() =>
+                              handleAddtoCart(
+                                item.name,
+                                newPrice,
+                                qty,
+                                item.id,
+                                setQty
+                              )
+                            }
+                          >
                             Add to Cart
                           </Button>
                         </CardFooter>
@@ -312,6 +379,11 @@ export default function SectionProducts({ id, query }) {
           </GridItem>
         </GridContainer>
         <br />
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Item Added to Cart!
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

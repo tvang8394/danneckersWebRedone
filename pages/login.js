@@ -21,20 +21,41 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import MyFooter from '../components/MyFooter';
+import MyFooter from "../components/MyFooter";
+import { loadFirebase } from "../components/Firebase";
 
 import loginPageStyle from "assets/jss/nextjs-material-kit-pro/pages/loginPageStyle.js";
 
 import image from "assets/img/bg7.jpg";
-import storeFront from 'assets/img/storeFront.svg'
+import storeFront from "assets/img/storeFront.svg";
+import { useDispatch } from "react-redux";
+import { userSignIn } from "../store/actions/userAction";
+import Router from "next/router";
+
 const useStyles = makeStyles(loginPageStyle);
 
 export default function LoginPage() {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
+  const handleLogin = () => {
+    let firebase = loadFirebase();
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        // Signed in
+        if (user) {
+          dispatch(userSignIn(user));
+          Router.push("/danneckers");
+        }
+      });
+  };
   return (
     <div>
       <Header
@@ -48,7 +69,7 @@ export default function LoginPage() {
         style={{
           backgroundImage: "url(" + storeFront + ")",
           backgroundSize: "cover",
-          backgroundPosition: "top center"
+          backgroundPosition: "top center",
         }}
       >
         <div className={classes.container}>
@@ -67,7 +88,7 @@ export default function LoginPage() {
                         justIcon
                         color="transparent"
                         className={classes.iconButtons}
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-twitter" />
                       </Button>
@@ -75,7 +96,7 @@ export default function LoginPage() {
                         justIcon
                         color="transparent"
                         className={classes.iconButtons}
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-facebook" />
                       </Button>
@@ -83,7 +104,7 @@ export default function LoginPage() {
                         justIcon
                         color="transparent"
                         className={classes.iconButtons}
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                       >
                         <i className="fab fa-google-plus-g" />
                       </Button>
@@ -94,41 +115,34 @@ export default function LoginPage() {
                   </p>
                   <CardBody signup>
                     <CustomInput
-                      id="first"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        placeholder: "First Name...",
-                        type: "text",
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Face className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
                       id="email"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
                       inputProps={{
+                        value: email,
+                        onChange: (e) => {
+                          setEmail(e.target.value);
+                        },
                         placeholder: "Email...",
                         type: "email",
                         startAdornment: (
                           <InputAdornment position="start">
                             <Email className={classes.inputIconsColor} />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                     />
                     <CustomInput
                       id="pass"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
                       inputProps={{
+                        value: password,
+                        onChange: (e) => {
+                          setPassword(e.target.value);
+                        },
                         placeholder: "Password",
                         type: "password",
                         startAdornment: (
@@ -138,13 +152,18 @@ export default function LoginPage() {
                             </Icon>
                           </InputAdornment>
                         ),
-                        autoComplete: "off"
+                        autoComplete: "off",
                       }}
                     />
                   </CardBody>
                   <div className={classes.textCenter}>
-                    <Button simple color="primary" size="lg">
-                      Get started
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      onClick={handleLogin}
+                    >
+                      Login
                     </Button>
                   </div>
                 </form>

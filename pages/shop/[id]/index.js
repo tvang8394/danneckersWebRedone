@@ -64,7 +64,7 @@ export default function EcommercePage({
       return <SectionProducts id={id} query={liquor} />;
     }
     if (id === "Grocery") {
-      return <SectionProducts id={id} query={grocery} />;
+      return <SectionProducts id={id} query={groceryNonTax} />;
     }
     if (id === "Wine") {
       return <SectionProducts id={id} query={wine} />;
