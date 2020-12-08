@@ -7,9 +7,9 @@ import InfoArea from "components/InfoArea/InfoArea.js";
 // @material-ui icons
 import Apps from "@material-ui/icons/Apps";
 import ViewDay from "@material-ui/icons/ViewDay";
-import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
 import ViewCarousel from "@material-ui/icons/ViewCarousel";
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,10 +26,9 @@ export default function SectionDescription() {
           <GridItem md={8} sm={8}>
             <h4 className={classes.description}>
               We invite you to come check out our selections. We have added a
-              few new inventory, such as the growing popular spirit, 
-               <span className={classes.proBadge}> Soju!</span> Also, let us know your thoughts, concerns
-              and/or suggestions about our innovation and upcoming plans.
-              
+              few new inventory, such as the growing popular spirit, Soju! Also,
+              let us know your thoughts, concerns and/or suggestions about our
+              innovation and upcoming plans.
             </h4>
           </GridItem>
         </GridContainer>

@@ -51,7 +51,7 @@ export default function PresentationPage({
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
-  
+
   return (
     <div>
       <Header
@@ -65,7 +65,7 @@ export default function PresentationPage({
         }}
       />
       <Parallax
-        image={require("assets/img/danneckers.svg")}
+        image={require("assets/img/logo.svg")}
         className={classes.parallax}
       >
         <div className={classes.container}>
@@ -73,9 +73,10 @@ export default function PresentationPage({
             <GridItem>
               <div className={classes.brand}>
                 <h1>
-                  Danneckers
+                  DANNECKER'S
                   <span className={classes.proBadge}>2.0</span>
                 </h1>
+                <h3>WHERE CENTS MEANS DOLLARS</h3>
                 <h3 className={classes.title}>
                   Business Hours: Mon - Sat / 9AM - 9PM & Sun / 11AM - 6PM
                   <br></br>
@@ -87,10 +88,16 @@ export default function PresentationPage({
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <SectionDescription />
         <DanneckerCarousel />
+
+        <SectionDescription />
         <SectionContent />
-        <SectionCards beer={beer} liquor={liquor} wine={wine} grocery={groceryNonTax}/>
+        <SectionCards
+          beer={beer}
+          liquor={liquor}
+          wine={wine}
+          grocery={groceryNonTax}
+        />
       </div>
       <Footer
         theme="dark"

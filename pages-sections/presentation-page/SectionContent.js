@@ -6,13 +6,13 @@ import GridItem from "components/Grid/GridItem.js";
 import { makeStyles } from "@material-ui/core/styles";
 // library used for cool animations
 import ScrollAnimation from "react-animate-on-scroll";
-import { Button } from '@material-ui/core';
+import { Button } from "@material-ui/core";
 import contentStyle from "assets/jss/nextjs-material-kit-pro/pages/presentationSections/contentStyle.js";
 // images
 import presentationiPad from "assets/img/assets-for-demo/presentationViewSectionComponent/presentation-ipad.jpg";
 import danneckersSign from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerSign.svg";
-import danneckerRewards from 'assets/img/assets-for-demo/presentationViewSectionComponent/danneckerRewards.svg'
-import danneckerLiquor from 'assets/img/assets-for-demo/presentationViewSectionComponent/danneckerLiquor.svg'
+import danneckerRewards from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerRewards.svg";
+import danneckerLiquor from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerLiquor.svg";
 
 import presentationiPadComments from "assets/img/assets-for-demo/presentationViewSectionComponent/ipad-comments.jpg";
 import presentationiPadTable from "assets/img/assets-for-demo/presentationViewSectionComponent/ipad-table.jpg";
@@ -30,37 +30,22 @@ export default function SectionContent() {
               <h3 className={classes.title}>Sign up for a Free account!</h3>
               <h6 className={classes.description}>Quick and Easy!</h6>
               <h5 className={classes.description}>
-                Become a member so you can earn rewards, save
-                favorite orders and make payment easier. You'll also get
-                exclusive membership deals!
+                Here at Danneckers Grocery & Liquor Store, we care about our
+                customers, neighbors, and communities! Without them, there
+                wouldn't be us. To show our gratitude, we are now offering a
+                customer loyalty reward program. You can now earn points on
+                every penny that they spend here and can be redeemed towards a
+                future purchase! 
               </h5>
             </div>
             <Button>Sign Up</Button>
           </GridItem>
           <GridItem md={7} className={classes.mlAuto}>
             <div className={classes.imageContainer}>
-              <div className={classes.animeAreaImg}>
-                <ScrollAnimation animateIn="fadeInUp">
-                  <img
-                    src={danneckerLiquor}
-                    alt="iPad comments"
-                    className={classes.areaImg}
-                  />
-                </ScrollAnimation>
-              </div>
-              <div className={classes.animeInfoImg}>
-                <ScrollAnimation animateIn="fadeInUp">
-                  <img
-                    src={danneckerRewards}
-                    alt="iPad table"
-                    className={classes.infoImg}
-                  />
-                </ScrollAnimation>
-              </div>
               <img
                 className={classes.ipadImg}
                 src={danneckersSign}
-                alt="iPad"
+                alt="Danneckers Sign"
               />
             </div>
           </GridItem>
