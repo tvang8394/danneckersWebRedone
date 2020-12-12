@@ -31,7 +31,7 @@ import shoppingCartStyle from "assets/jss/nextjs-material-kit-pro/pages/shopping
 import product1 from "assets/img/product1.jpg";
 import product2 from "assets/img/product2.jpg";
 import product3 from "assets/img/product3.jpg";
-
+import { useState } from "react";
 const useStyles = makeStyles(shoppingCartStyle);
 
 export default function ShoppingCartPage() {
@@ -39,8 +39,11 @@ export default function ShoppingCartPage() {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   });
+  const [total, setTotal] = useState(0);
+
   const classes = useStyles();
   const { cart } = useSelector((state) => state.cart);
+
   return (
     <div>
       <Header
@@ -81,14 +84,7 @@ export default function ShoppingCartPage() {
             <CardBody plain>
               <h3 className={classes.cardTitle}>Shopping Cart</h3>
               <Table
-                tableHead={[
-                  "",
-                  "PRODUCT",
-                  "PRICE",
-                  "QTY",
-                  "AMOUNT",
-                  "",
-                ]}
+                tableHead={["", "PRODUCT", "PRICE", "QTY", "AMOUNT", ""]}
                 tableData={cart.map((item) => [
                   <div className={classes.imgContainer} key={1}>
                     <img src={product1} alt="..." className={classes.img} />
@@ -99,12 +95,14 @@ export default function ShoppingCartPage() {
                     </a>
                     <br />
                   </span>,
-                  
+
                   <span key={1}>
-                    <small className={classes.tdNumberSmall}>$</small> {item.price}
+                    <small className={classes.tdNumberSmall}>$</small>{" "}
+                    {item.price}
                   </span>,
                   <span key={1}>
-                    {item.qty}{` `}
+                    {item.qty}
+                    {` `}
                     <div className={classes.buttonGroup}>
                       <Button
                         color="info"
@@ -125,7 +123,8 @@ export default function ShoppingCartPage() {
                     </div>
                   </span>,
                   <span key={1}>
-                    <small className={classes.tdNumberSmall}>$</small> {(item.qty * item.price).toFixed(2)}
+                    <small className={classes.tdNumberSmall}>$</small>{" "}
+                    {(item.qty * item.price).toFixed(2)}
                   </span>,
                   <Tooltip
                     key={1}
@@ -137,9 +136,8 @@ export default function ShoppingCartPage() {
                     <Button link className={classes.actionButton}>
                       <Close />
                     </Button>
-                  </Tooltip>
-                ]
-                )}
+                  </Tooltip>,
+                ])}
                 tableShopping
                 customHeadCellClasses={[
                   classes.textCenter,
@@ -161,6 +159,13 @@ export default function ShoppingCartPage() {
                 customClassesForCells={[1, 2, 3, 4, 5, 6]}
               />
             </CardBody>
+            <div style={{ alignSelf: "flex-end", display: "flex" }}>
+              <h3>Total: </h3>
+              <h3></h3>
+              <Button color="info" size="md" href='/payment' round>
+                COMPLETE PURCHASE
+              </Button>
+            </div>
           </Card>
         </div>
       </div>

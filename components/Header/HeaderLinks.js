@@ -150,17 +150,7 @@ export default function HeaderLinks(props) {
             <ShoppingCart className={classes.icons} /> Check Out
           </Button>
         </Hidden>
-        <Hidden mdUp>
-          <Button
-            href="/"
-            color={"info"}
-            target="_blank"
-            className={classes.navButton}
-            round
-          >
-            <ShoppingCart className={classes.icons} /> buy now
-          </Button>
-        </Hidden>
+        
       </ListItem>
 
       {user ? (

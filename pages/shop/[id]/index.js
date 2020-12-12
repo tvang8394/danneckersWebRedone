@@ -16,7 +16,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Parallax from "components/Parallax/Parallax.js";
 import Button from "components/CustomButtons/Button.js";
-
+import MyFooter from "../../../components/MyFooter";
 import Footer from "components/Footer/Footer.js";
 // sections for this page
 import SectionProducts from "pages-sections/ecommerce/SectionProducts.js";
@@ -37,17 +37,11 @@ export async function getServerSideProps() {
   const wine = await getWineItems();
   const groceryNonTax = await getGroceryNonTaxItems();
   return {
-    props: {  beer, liquor, wine, groceryNonTax },
+    props: { beer, liquor, wine, groceryNonTax },
   };
 }
 
-export default function EcommercePage({
-
-  beer,
-  liquor,
-  wine,
-  groceryNonTax,
-}) {
+export default function EcommercePage({ beer, liquor, wine, groceryNonTax }) {
   const router = useRouter();
   const { id } = router.query;
   React.useEffect(() => {
@@ -99,7 +93,7 @@ export default function EcommercePage({
               )}
             >
               <div className={classes.brand}>
-                <h1 className={classes.title}>Shop</h1>
+                <h1 className={classes.title}>{id}</h1>
                 <h4>Free delivery for purchases over $50!</h4>
               </div>
             </GridItem>
@@ -111,71 +105,7 @@ export default function EcommercePage({
         {renderItem()}
       </div>
 
-      <Footer
-        theme="dark"
-        content={
-          <div>
-            <div className={classes.left}>
-              <a href="/" target="_blank" className={classes.footerBrand}>
-                Danneckers Liquor & Grocery
-              </a>
-            </div>
-
-            <div className={classes.pullCenter}>
-              <List className={classes.list}>
-                <ListItem className={classes.inlineBlock}>
-                  <a href="/" target="_blank" className={classes.block}>
-                    About us
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a href="/" className={classes.block}>
-                    Blog
-                  </a>
-                </ListItem>
-              </List>
-            </div>
-            <div className={classes.rightLinks}>
-              <ul>
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="facebook"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-facebook" />
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="twitter"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-twitter" />
-                  </Button>
-                </li>
-
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="instagram"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-instagram" />
-                  </Button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        }
-      />
+      <MyFooter />
     </div>
   );
 }

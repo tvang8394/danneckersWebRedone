@@ -23,12 +23,12 @@ export default function MyFooter() {
             <List className={classes.list}>
               <ListItem className={classes.inlineBlock}>
                 <a href="/" target="_blank" className={classes.block}>
-                  About us
+                  Policy
                 </a>
               </ListItem>
               <ListItem className={classes.inlineBlock}>
-                <a href="/" className={classes.block}>
-                  Blog
+                <a href="/contact-us" className={classes.block}>
+                  Contact Us
                 </a>
               </ListItem>
             </List>

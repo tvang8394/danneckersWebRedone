@@ -85,6 +85,7 @@ class MyApp extends App {
     return (
       <React.Fragment>
         <Head>
+
           <title>Danneckers | Liquor and Grocery</title>
         </Head>
         <Provider store={store}>

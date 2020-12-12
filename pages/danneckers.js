@@ -19,7 +19,7 @@ import Button from "components/CustomButtons/Button.js";
 import SectionDescription from "pages-sections/presentation-page/SectionDescription.js";
 import SectionCards from "pages-sections/presentation-page/SectionCards.js";
 import SectionContent from "pages-sections/presentation-page/SectionContent.js";
-
+import MyFooter from "../components/MyFooter";
 import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/presentationStyle.js";
 import {
   getBeerItems,
@@ -76,7 +76,7 @@ export default function PresentationPage({
                   DANNECKER'S
                   <span className={classes.proBadge}>2.0</span>
                 </h1>
-                <h3>WHERE CENTS MEANS DOLLARS</h3>
+                <h2>WHERE CENTS MEANS DOLLARS</h2>
                 <h3 className={classes.title}>
                   Business Hours: Mon - Sat / 9AM - 9PM & Sun / 11AM - 6PM
                   <br></br>
@@ -99,70 +99,7 @@ export default function PresentationPage({
           grocery={groceryNonTax}
         />
       </div>
-      <Footer
-        theme="dark"
-        content={
-          <div>
-            <div className={classes.left}>
-              <a href="/"  className={classes.footerBrand}>
-                Danneckers Liquor & Grocery
-              </a>
-            </div>
-            <div className={classes.pullCenter}>
-              <List className={classes.list}>
-                <ListItem className={classes.inlineBlock}>
-                  <a href="/" target="_blank" className={classes.block}>
-                    About us
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a href="/" className={classes.block}>
-                    Blog
-                  </a>
-                </ListItem>
-              </List>
-            </div>
-            <div className={classes.rightLinks}>
-              <ul>
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="facebook"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-facebook" />
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="twitter"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-twitter" />
-                  </Button>
-                </li>
-
-                <li>
-                  <Button
-                    href="/"
-                    target="_blank"
-                    color="instagram"
-                    justIcon
-                    simple
-                  >
-                    <i className="fab fa-instagram" />
-                  </Button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        }
-      />
+      <MyFooter />
     </div>
   );
 }
