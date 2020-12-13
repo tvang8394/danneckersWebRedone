@@ -10,6 +10,7 @@
     "@zeit/next-sass": "1.0.1",
     "animate.css": "3.7.2",
     "classnames": "2.2.6",
+    "clover-ecomm-sdk": "^1.0.0",
     "firebase": "^8.1.2",
     "formik": "^2.2.5",
     "isomorphic-unfetch": "^3.1.0",

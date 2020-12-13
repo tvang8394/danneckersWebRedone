@@ -27,11 +27,11 @@ import CardBody from "components/Card/CardBody.js";
 import { useDispatch, useSelector } from "react-redux";
 import MyFooter from "../components/MyFooter";
 import shoppingCartStyle from "assets/jss/nextjs-material-kit-pro/pages/shoppingCartStyle.js";
+import MyCard from "../components/MyCard";
 
-import product1 from "assets/img/product1.jpg";
-import product2 from "assets/img/product2.jpg";
-import product3 from "assets/img/product3.jpg";
 import { useState } from "react";
+import { updateItem, deleteItem } from "../store/actions/addItemAction";
+
 const useStyles = makeStyles(shoppingCartStyle);
 
 export default function ShoppingCartPage() {
@@ -40,10 +40,21 @@ export default function ShoppingCartPage() {
     document.body.scrollTop = 0;
   });
   const [total, setTotal] = useState(0);
-
+  const dispatch = useDispatch;
   const classes = useStyles();
   const { cart } = useSelector((state) => state.cart);
 
+  const handleRemove = (qty) => {
+    qty = qty - 1;
+    dispatch(updateItem(qty));
+  };
+
+  const renderTotal = () => {
+    const total = 0;
+    cart.map(item => {
+      
+    })
+  }
   return (
     <div>
       <Header
@@ -83,86 +94,16 @@ export default function ShoppingCartPage() {
           <Card plain>
             <CardBody plain>
               <h3 className={classes.cardTitle}>Shopping Cart</h3>
-              <Table
-                tableHead={["", "PRODUCT", "PRICE", "QTY", "AMOUNT", ""]}
-                tableData={cart.map((item) => [
-                  <div className={classes.imgContainer} key={1}>
-                    <img src={product1} alt="..." className={classes.img} />
-                  </div>,
-                  <span key={1}>
-                    <a href="#jacket" className={classes.tdNameAnchor}>
-                      {item.name}
-                    </a>
-                    <br />
-                  </span>,
-
-                  <span key={1}>
-                    <small className={classes.tdNumberSmall}>$</small>{" "}
-                    {item.price}
-                  </span>,
-                  <span key={1}>
-                    {item.qty}
-                    {` `}
-                    <div className={classes.buttonGroup}>
-                      <Button
-                        color="info"
-                        size="sm"
-                        round
-                        className={classes.firstButton}
-                      >
-                        <Remove />
-                      </Button>
-                      <Button
-                        color="info"
-                        size="sm"
-                        round
-                        className={classes.lastButton}
-                      >
-                        <Add />
-                      </Button>
-                    </div>
-                  </span>,
-                  <span key={1}>
-                    <small className={classes.tdNumberSmall}>$</small>{" "}
-                    {(item.qty * item.price).toFixed(2)}
-                  </span>,
-                  <Tooltip
-                    key={1}
-                    id="close1"
-                    title="Remove item"
-                    placement="left"
-                    classes={{ tooltip: classes.tooltip }}
-                  >
-                    <Button link className={classes.actionButton}>
-                      <Close />
-                    </Button>
-                  </Tooltip>,
-                ])}
-                tableShopping
-                customHeadCellClasses={[
-                  classes.textCenter,
-                  classes.description,
-                  classes.description,
-                  classes.textRight,
-                  classes.textRight,
-                  classes.textRight,
-                ]}
-                customHeadClassesForCells={[0, 2, 3, 4, 5, 6]}
-                customCellClasses={[
-                  classes.tdName,
-                  classes.customFont,
-                  classes.customFont,
-                  classes.tdNumber,
-                  classes.tdNumber + " " + classes.tdNumberAndButtonGroup,
-                  classes.tdNumber + " " + classes.textCenter,
-                ]}
-                customClassesForCells={[1, 2, 3, 4, 5, 6]}
-              />
+              {cart.map((item) => {
+                return <MyCard item={item} />;
+              })}
             </CardBody>
-            <div style={{ alignSelf: "flex-end", display: "flex" }}>
+            <div style={{ alignSelf: "flex-end" }}>
+              <h3>Sub Total: </h3>
+
               <h3>Total: </h3>
               <h3></h3>
-              <Button color="info" size="md" href='/payment' round>
+              <Button color="info" size="md" href="/payment" round>
                 COMPLETE PURCHASE
               </Button>
             </div>
