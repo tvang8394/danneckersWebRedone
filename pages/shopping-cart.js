@@ -50,11 +50,21 @@ export default function ShoppingCartPage() {
   };
 
   const renderTotal = () => {
-    const total = 0;
-    cart.map(item => {
-      
-    })
-  }
+    let prices = [];
+    cart.map((item) => {
+      const priceInt = parseFloat(item.price);
+      if (item.qty > 1) {
+        const newTotal = priceInt * item.qty;
+        prices.push(newTotal);
+      } else {
+        prices.push(priceInt);
+      }
+    });
+    const subTotal = prices.reduce((a, b) => {
+      return a + b;
+    }, 0);
+    return subTotal;
+  };
   return (
     <div>
       <Header
@@ -99,10 +109,36 @@ export default function ShoppingCartPage() {
               })}
             </CardBody>
             <div style={{ alignSelf: "flex-end" }}>
-              <h3>Sub Total: </h3>
-
-              <h3>Total: </h3>
-              <h3></h3>
+              <h4
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Sub Total: <span>${renderTotal()}</span>
+              </h4>
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Taxes: <span>${(renderTotal() * 0.137).toFixed(2)}</span>
+              </p>
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Total:{" "}
+                <span>
+                  ${(renderTotal() + renderTotal() * 0.137).toFixed(2)}
+                </span>
+              </h3>
               <Button color="info" size="md" href="/payment" round>
                 COMPLETE PURCHASE
               </Button>

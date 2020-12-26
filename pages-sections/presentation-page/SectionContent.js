@@ -48,10 +48,10 @@ export default function SectionContent() {
                   customer loyalty reward program. You can now earn points on
                   every penny that they spend here and can be redeemed towards a
                   future purchase!
-                </h5>)()
+                </h5>)
               )}
             </div>
-            {user ? <Button>View Deals</Button> : <Button>Sign Up</Button>}
+            {user ? <Button>View Deals</Button> : <Button href='/signup'>Sign Up</Button>}
           </GridItem>
           <GridItem md={7} className={classes.mlAuto}>
             <div className={classes.imageContainer}>

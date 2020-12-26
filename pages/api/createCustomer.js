@@ -1,23 +1,23 @@
+import fetch from "isomorphic-unfetch";
 const Clover = require("clover-ecomm-sdk");
 
 export default async (req, res) => {
-  const cloverInst = new Clover(process.env.CLOVER_KEY, {
-    environment: process.env.DEVELOPER_APP_UID,
+  let ACCESS_TOKEN = process.env.CLOVER_KEY;
+  let ENVIRONMENT = process.env.NEXT_PUBLIC_CLOVER_PUBLIC;
+  
+  const cloverInst = new Clover(ACCESS_TOKEN, {
+    environment: ENVIRONMENT
   });
-
-  const customer = await cloverInst.customers.create({
-    email: "sample.email@example.com",
-    source: "clv_1TSTSpbfbN6Jh5CqCm3bMQne",
-    shipping: {
-      address: {
-        city: "Sunnyvale",
-        state: "CA",
-        line1: "415 N Mathilda Ave",
-        postal_code: "94085",
-      },
-    },
-    name: "test",
-    phone: "555-0125",
+  
+  let order = cloverInst.orders.create({
+      currency: 'usd',
+      email:'sample.email@example.com',
+      items:{
+          'amount': 1358,
+          'currency': 'usd',
+          'description': 'Lemon cupcake with blackberry frosting',
+          'quantity': 2,
+          'tax_rates':{'name':'Sale','rate':1000000}
+      }
   });
-  console.log(customer);
 };

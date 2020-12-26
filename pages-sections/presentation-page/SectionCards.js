@@ -9,18 +9,23 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
-
-import item1 from 'assets/img/examples/item-1.svg'
+import Remove from "@material-ui/icons/Remove";
+import Add from "@material-ui/icons/Add";
+import item1 from "assets/img/examples/item-1.svg";
 import styles from "assets/jss/nextjs-material-kit-pro/pages/ecommerceSections/productsStyle.js";
-
+import Badge from "@material-ui/core/Badge";
 const useStyles = makeStyles(styles);
+import { useDispatch } from "react-redux";
+import { addItem } from "../../store/actions/addItemAction";
 
 export default function SectionProducts({ beer, liquor, wine, grocery }) {
   const [checked, setChecked] = React.useState([1, 9, 27]);
-  const newBeer = beer.slice(0, 4);
-  const newLiquor = liquor.slice(0, 4);
-  const newWine = wine.slice(0, 4);
-  const newGrocery = grocery.slice(0, 4);
+  const newBeer = beer.slice(0, 3);
+  const newLiquor = liquor.slice(0, 3);
+  const dispatch = useDispatch();
+
+  const newWine = wine.slice(0, 3);
+  const newGrocery = grocery.slice(0, 3);
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -31,6 +36,8 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
     }
     setChecked(newChecked);
   };
+
+  const renderTotal = () => {};
 
   const priceFormat = (price) => {
     const newPrice = price.toString();
@@ -50,6 +57,19 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
     }
     return price;
   };
+
+  const handleAddtoCart = (name, price, qty, id, setQty) => {
+    const item = {
+      name,
+      price,
+      qty,
+      id,
+    };
+
+    dispatch(addItem(item));
+    setQty(1);
+    setOpen(true);
+  };
   const classes = useStyles();
   return (
     <div className={classes.section}>
@@ -60,16 +80,18 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {newBeer.map((item) => {
+                const [qty, setQty] = React.useState(1);
+
                 return (
                   <>
                     {/* start of each item 1*/}
 
-                    <GridItem md={3} sm={3}>
+                    <GridItem md={4} sm={4}>
                       <Card plain product>
                         <CardHeader noShadow image>
-                          <a href="#pablo">
-                            <img src={ item1} alt=".." />
-                          </a>
+                          <Badge badgeContent={qty} color="secondary">
+                            <img src={item1} alt=".." />
+                          </Badge>
                         </CardHeader>
                         <CardBody plain>
                           <a href="#pablo">
@@ -88,9 +110,54 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
                             </span>
                           </div>
 
-                          <Button color="rose" className={classes.pullRight}>
-                            Add to Cart
-                          </Button>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div className={classes.buttonGroup}>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.firstButton}
+                                onClick={() => setQty(qty + 1)}
+                              >
+                                <Add />
+                              </Button>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.lastButton}
+                                onClick={() => {
+                                  if (qty > 1) {
+                                    setQty(qty - 1);
+                                  }
+                                }}
+                              >
+                                <Remove />
+                              </Button>
+                            </div>
+                            <Button
+                              color="info"
+                              className={classes.pullRight}
+                              onClick={() =>
+                                handleAddtoCart(
+                                  item.name,
+                                  newPrice,
+                                  qty,
+                                  item.id,
+                                  setQty
+                                )
+                              }
+                              style={{ overflow: "hidden" }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </div>
                         </CardFooter>
                       </Card>
                     </GridItem>
@@ -108,16 +175,18 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {newLiquor.map((item) => {
+                const [qty, setQty] = React.useState(1);
+
                 return (
                   <>
                     {/* start of each item 1*/}
 
-                    <GridItem md={3} sm={3}>
+                    <GridItem md={4} sm={4}>
                       <Card plain product>
                         <CardHeader noShadow image>
-                          <a href="#pablo">
+                          <Badge badgeContent={qty} color="secondary">
                             <img src={item1} alt=".." />
-                          </a>
+                          </Badge>
                         </CardHeader>
                         <CardBody plain>
                           <a href="#pablo">
@@ -136,9 +205,54 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
                             </span>
                           </div>
 
-                          <Button color="rose" className={classes.pullRight}>
-                            Add to Cart
-                          </Button>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div className={classes.buttonGroup}>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.firstButton}
+                                onClick={() => setQty(qty + 1)}
+                              >
+                                <Add />
+                              </Button>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.lastButton}
+                                onClick={() => {
+                                  if (qty > 1) {
+                                    setQty(qty - 1);
+                                  }
+                                }}
+                              >
+                                <Remove />
+                              </Button>
+                            </div>
+                            <Button
+                              color="info"
+                              className={classes.pullRight}
+                              onClick={() =>
+                                handleAddtoCart(
+                                  item.name,
+                                  newPrice,
+                                  qty,
+                                  item.id,
+                                  setQty
+                                )
+                              }
+                              style={{ overflow: "hidden" }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </div>
                         </CardFooter>
                       </Card>
                     </GridItem>
@@ -156,16 +270,18 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {newWine.map((item) => {
+                const [qty, setQty] = React.useState(1);
+
                 return (
                   <>
                     {/* start of each item 1*/}
 
-                    <GridItem md={3} sm={3}>
+                    <GridItem md={4} sm={4}>
                       <Card plain product>
                         <CardHeader noShadow image>
-                          <a href="#pablo">
+                          <Badge badgeContent={qty} color="secondary">
                             <img src={item1} alt=".." />
-                          </a>
+                          </Badge>
                         </CardHeader>
                         <CardBody plain>
                           <a href="#pablo">
@@ -184,9 +300,54 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
                             </span>
                           </div>
 
-                          <Button color="rose" className={classes.pullRight}>
-                            Add to Cart
-                          </Button>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div className={classes.buttonGroup}>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.firstButton}
+                                onClick={() => setQty(qty + 1)}
+                              >
+                                <Add />
+                              </Button>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.lastButton}
+                                onClick={() => {
+                                  if (qty > 1) {
+                                    setQty(qty - 1);
+                                  }
+                                }}
+                              >
+                                <Remove />
+                              </Button>
+                            </div>
+                            <Button
+                              color="info"
+                              className={classes.pullRight}
+                              onClick={() =>
+                                handleAddtoCart(
+                                  item.name,
+                                  item.price,
+                                  qty,
+                                  item.id,
+                                  setQty
+                                )
+                              }
+                              style={{ overflow: "hidden" }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </div>
                         </CardFooter>
                       </Card>
                     </GridItem>
@@ -204,16 +365,18 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {newGrocery.map((item) => {
+                const [qty, setQty] = React.useState(1);
+
                 return (
                   <>
                     {/* start of each item 1*/}
 
-                    <GridItem md={3} sm={3}>
+                    <GridItem md={4} sm={4}>
                       <Card plain product>
                         <CardHeader noShadow image>
-                          <a href="#pablo">
+                          <Badge badgeContent={qty} color="secondary">
                             <img src={item1} alt=".." />
-                          </a>
+                          </Badge>
                         </CardHeader>
                         <CardBody plain>
                           <a href="#pablo">
@@ -232,9 +395,54 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
                             </span>
                           </div>
 
-                          <Button color="rose" className={classes.pullRight}>
-                            Add to Cart
-                          </Button>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div className={classes.buttonGroup}>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.firstButton}
+                                onClick={() => setQty(qty + 1)}
+                              >
+                                <Add />
+                              </Button>
+                              <Button
+                                color="info"
+                                size="sm"
+                                round
+                                className={classes.lastButton}
+                                onClick={() => {
+                                  if (qty > 1) {
+                                    setQty(qty - 1);
+                                  }
+                                }}
+                              >
+                                <Remove />
+                              </Button>
+                            </div>
+                            <Button
+                              color="info"
+                              className={classes.pullRight}
+                              onClick={() =>
+                                handleAddtoCart(
+                                  item.name,
+                                  item.price,
+                                  qty,
+                                  item.id,
+                                  setQty
+                                )
+                              }
+                              style={{ overflow: "hidden" }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </div>
                         </CardFooter>
                       </Card>
                     </GridItem>
