@@ -69,19 +69,19 @@ export default function ShoppingCartPage() {
 
     let jsonOrder = JSON.stringify(myOrder);
     console.log(jsonOrder);
-    const response = await fetch(
-      `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/orders/?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "no-cors",
-        body: jsonOrder,
-      }
-    );
-    const data = await response.json();
-    console.log(data);
+    // const response = await fetch(
+    //   `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/orders/?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     mode: "no-cors",
+    //     body: jsonOrder,
+    //   }
+    // );
+    // const data = await response.json();
+    // console.log(data);
   };
   const finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
   return (
