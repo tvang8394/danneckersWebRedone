@@ -18,7 +18,6 @@ import AttachMoney from "@material-ui/icons/AttachMoney";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
-import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
@@ -31,7 +30,6 @@ import MyFooter from "../components/MyFooter";
 
 import signupPageStyle from "assets/jss/nextjs-material-kit-pro/pages/signupPageStyle.js";
 import { useDispatch } from "react-redux";
-import image from "assets/img/bg7.jpg";
 import storeFront from "assets/img/storeFront.svg";
 import { loadFirebase } from "../components/Firebase";
 import { userSignIn } from "../store/actions/userAction";
