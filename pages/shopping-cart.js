@@ -4,23 +4,14 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
 // @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
-import Close from "@material-ui/icons/Close";
-import Remove from "@material-ui/icons/Remove";
-import Add from "@material-ui/icons/Add";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Footer from "components/Footer/Footer.js";
-import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
