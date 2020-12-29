@@ -65,6 +65,35 @@ export default function ShoppingCartPage() {
     }, 0);
     return subTotal;
   };
+
+  const handlePurchase = async () => {
+    const total = renderTotal();
+    const newTotal = total.toString();
+    const formatTotal = newTotal.replace(".", "");
+    const finalTotal = parseInt(formatTotal);
+
+    const myOrder = {
+      currency: "USD",
+      total: finalTotal,
+      state: "Open",
+    };
+
+    let jsonOrder = JSON.stringify(myOrder);
+    console.log(jsonOrder);
+    const response = await fetch(
+      `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/orders/?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "no-cors",
+        body: jsonOrder,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+  };
   return (
     <div>
       <Header
@@ -139,7 +168,7 @@ export default function ShoppingCartPage() {
                   ${(renderTotal() + renderTotal() * 0.137).toFixed(2)}
                 </span>
               </h3>
-              <Button color="info" size="md" href="/payment" round>
+              <Button color="info" size="md" onClick={handlePurchase} round>
                 COMPLETE PURCHASE
               </Button>
             </div>

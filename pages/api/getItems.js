@@ -2,7 +2,7 @@ const fetch = require("isomorphic-unfetch");
 
 export default async function getItem(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.CLIENT_ID}/items?access_token=${process.env.CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
     {
       method: "GET",
       headers: {
@@ -11,7 +11,7 @@ export default async function getItem(req, res) {
     }
   );
   {
-    console.log(process.env.CLIENT_ID);
+    console.log(process.env.NEXT_PUBLIC_CLIENT_ID);
   }
   const items = await response.json();
 
@@ -20,7 +20,7 @@ export default async function getItem(req, res) {
 
 export async function getBeerItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.CLIENT_ID}/categories/${process.env.BEER}/items?access_token=${process.env.CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.BEER}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
     {
       method: "GET",
       headers: {
@@ -35,7 +35,7 @@ export async function getBeerItems(req, res) {
 
 export async function getLiquorItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.CLIENT_ID}/categories/${process.env.LIQUOR}/items?access_token=${process.env.CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.LIQUOR}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
     {
       method: "GET",
       headers: {
@@ -50,7 +50,7 @@ export async function getLiquorItems(req, res) {
 
 export async function getWineItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.CLIENT_ID}/categories/${process.env.WINE}/items?access_token=${process.env.CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.WINE}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
     {
       method: "GET",
       headers: {
@@ -65,7 +65,7 @@ export async function getWineItems(req, res) {
 
 export async function getGroceryNonTaxItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.CLIENT_ID}/categories/${process.env.GROCERY_NONTAX}/items?access_token=${process.env.CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_NONTAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
     {
       method: "GET",
       headers: {
