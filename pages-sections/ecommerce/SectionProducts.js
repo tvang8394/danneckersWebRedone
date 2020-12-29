@@ -105,12 +105,12 @@ export default function SectionProducts({ id, query }) {
           <GridItem md={3} sm={3}>
             <Card plain>
               <CardBody className={classes.cardBodyRefine}>
-                <Accordion
+                {/* <Accordion
                   active={[0, 2]}
                   activeColor="rose"
                   collapses={[
                     {
-                      title: "Clothing",
+                      title: "Filter",
                       content: (
                         <div className={classes.customExpandPanel}>
                           <div
@@ -142,14 +142,14 @@ export default function SectionProducts({ id, query }) {
                                 />
                               }
                               classes={{ label: classes.label }}
-                              label="Blazers"
+                              label="A"
                             />
                           </div>
                         </div>
                       ),
                     },
                   ]}
-                />
+                /> */}
               </CardBody>
             </Card>
           </GridItem>

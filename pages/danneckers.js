@@ -69,11 +69,11 @@ export default function PresentationPage({
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1>
+                <h2>
                   DANNECKER'S
                   <span className={classes.proBadge}>2.0</span>
-                </h1>
-                <h2>WHERE CENTS MEANS DOLLARS</h2>
+                </h2>
+                <h3>WHERE CENTS MEANS DOLLARS</h3>
                 <h3 className={classes.title}>
                   Business Hours: Mon - Sat / 9AM - 9PM & Sun / 11AM - 6PM
                   <br></br>
@@ -85,7 +85,6 @@ export default function PresentationPage({
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <DanneckerCarousel />
 
         <SectionDescription />
         <SectionContent />
