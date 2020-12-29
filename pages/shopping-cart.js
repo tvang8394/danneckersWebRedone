@@ -66,10 +66,8 @@ export default function ShoppingCartPage() {
     return subTotal;
   };
 
-  const handlePurchase = async () => {
-    const total = renderTotal();
-    const newTotal = total.toString();
-    const formatTotal = newTotal.replace(".", "");
+  const handlePurchase = async (total) => {
+    const formatTotal = total.replace(".", "");
     const finalTotal = parseInt(formatTotal);
 
     const myOrder = {
@@ -94,6 +92,7 @@ export default function ShoppingCartPage() {
     const data = await response.json();
     console.log(data);
   };
+  const finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
   return (
     <div>
       <Header
@@ -163,12 +162,14 @@ export default function ShoppingCartPage() {
                   justifyContent: "space-between",
                 }}
               >
-                Total:{" "}
-                <span>
-                  ${(renderTotal() + renderTotal() * 0.137).toFixed(2)}
-                </span>
+                Total: <span>${finalTotal}</span>
               </h3>
-              <Button color="info" size="md" onClick={handlePurchase} round>
+              <Button
+                color="info"
+                size="md"
+                onClick={() => handlePurchase(finalTotal)}
+                round
+              >
                 COMPLETE PURCHASE
               </Button>
             </div>

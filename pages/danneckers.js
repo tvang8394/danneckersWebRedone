@@ -3,18 +3,15 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
-import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import DanneckerCarousel from "../assets/jss/nextjs-material-kit-pro/components/danneckersCarousel";
 
 import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
 // sections for this page
 import SectionDescription from "pages-sections/presentation-page/SectionDescription.js";
 import SectionCards from "pages-sections/presentation-page/SectionCards.js";
