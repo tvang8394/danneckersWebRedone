@@ -5,8 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Timeline from "@material-ui/icons/Timeline";
@@ -25,7 +23,6 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import InfoArea from "components/InfoArea/InfoArea.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import { Formik } from "formik";
 import MyFooter from "../components/MyFooter";
 
 import signupPageStyle from "assets/jss/nextjs-material-kit-pro/pages/signupPageStyle.js";
