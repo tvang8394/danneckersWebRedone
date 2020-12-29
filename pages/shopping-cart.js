@@ -22,6 +22,7 @@ import MyCard from "../components/MyCard";
 
 import { useState } from "react";
 import { updateItem, deleteItem } from "../store/actions/addItemAction";
+import Router from "next/router";
 
 const useStyles = makeStyles(shoppingCartStyle);
 
@@ -60,29 +61,16 @@ export default function ShoppingCartPage() {
   const handlePurchase = async (total) => {
     const formatTotal = total.replace(".", "");
     const finalTotal = parseInt(formatTotal);
+    try {
+      const response = await fetch(`/api/createOrder/${finalTotal}`);
+      const data = await response.json();
 
-    const myOrder = {
-      currency: "USD",
-      total: finalTotal,
-      state: "Open",
-    };
-
-    let jsonOrder = JSON.stringify(myOrder);
-    console.log(jsonOrder);
-    // const response = await fetch(
-    //   `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/orders/?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     mode: "no-cors",
-    //     body: jsonOrder,
-    //   }
-    // );
-    // const data = await response.json();
-    // console.log(data);
+      console.log(data);
+    } catch (error) {
+      console.log("error: " + error.message);
+    }
   };
+
   const finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
   return (
     <div>
