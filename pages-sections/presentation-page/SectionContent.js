@@ -41,14 +41,14 @@ export default function SectionContent() {
                   deals! Thank You for shopping at Danneckers!
                 </h5>
               ) : (
-                (<h5 className={classes.description}>
+                (<h3 className={classes.description}>
                   Here at Danneckers Grocery & Liquor Store, we care about our
                   customers, neighbors, and communities! Without them, there
                   wouldn't be us. To show our gratitude, we are now offering a
                   customer loyalty reward program. You can now earn points on
                   every penny that they spend here and can be redeemed towards a
                   future purchase!
-                </h5>)()
+                </h3>)
               )}
             </div>
             {user ? <Button>View Deals</Button> : <Button>Sign Up</Button>}
