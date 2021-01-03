@@ -40,35 +40,35 @@ export default function CardPayment() {
 
     // Handle real-time validation errors from the card element
     cardNumber.addEventListener("change", function (event) {
-      console.log(`cardNumber changed ${JSON.stringify(event)}`);
+      displayCardNumberError.innerHTML = event.CARD_NUMBER.error || "";
     });
 
     cardNumber.addEventListener("blur", function (event) {
-      console.log(`cardNumber blur ${JSON.stringify(event)}`);
+      displayCardNumberError.innerHTML = event.CARD_NUMBER.error || "";
     });
 
     cardDate.addEventListener("change", function (event) {
-      console.log(`cardDate changed ${JSON.stringify(event)}`);
+      displayCardDateError.innerHTML = event.CARD_DATE.error || "";
     });
 
     cardDate.addEventListener("blur", function (event) {
-      console.log(`cardDate blur ${JSON.stringify(event)}`);
+      displayCardDateError.innerHTML = event.CARD_DATE.error || "";
     });
 
     cardCvv.addEventListener("change", function (event) {
-      console.log(`cardCvv changed ${JSON.stringify(event)}`);
+      displayCardCvvError.innerHTML = event.CARD_CVV.error || "";
     });
 
     cardCvv.addEventListener("blur", function (event) {
-      console.log(`cardCvv blur ${JSON.stringify(event)}`);
+      displayCardCvvError.innerHTML = event.CARD_CVV.error || "";
     });
 
     cardPostalCode.addEventListener("change", function (event) {
-      console.log(`cardPostalCode changed ${JSON.stringify(event)}`);
+      displayCardPostalCodeError.innerHTML = event.CARD_POSTAL_CODE.error || "";
     });
 
     cardPostalCode.addEventListener("blur", function (event) {
-      console.log(`cardPostalCode blur ${JSON.stringify(event)}`);
+      displayCardPostalCodeError.innerHTML = event.CARD_POSTAL_CODE.error || "";
     });
 
     // Listen for form submission
@@ -87,7 +87,7 @@ export default function CardPayment() {
     });
 
     //function that deals with token so send token to Firebase here?
-    function cloverTokenHandler(token) {
+    async function cloverTokenHandler(token) {
       // Insert the token ID into the form so it gets submitted to the server
       var form = document.getElementById("payment-form");
       var hiddenInput = document.createElement("input");

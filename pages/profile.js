@@ -5,14 +5,13 @@ import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+
 // @material-ui/icons
 import Camera from "@material-ui/icons/Camera";
 import Palette from "@material-ui/icons/Palette";
 import People from "@material-ui/icons/People";
-import Add from "@material-ui/icons/Add";
-import Favorite from "@material-ui/icons/Favorite";
+import ViewListIcon from '@material-ui/icons/ViewList';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 // core components
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
@@ -40,8 +39,9 @@ import avatar from "assets/img/faces/avatar.jpg";
 import marc from "assets/img/faces/marc.jpg";
 import kendall from "assets/img/faces/kendall.jpg";
 import cardProfile2Square from "assets/img/faces/card-profile2-square.jpg";
-
+import MyFooter from "../components/MyFooter";
 import profilePageStyle from "assets/jss/nextjs-material-kit-pro/pages/profilePageStyle.js";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(profilePageStyle);
 
@@ -56,17 +56,19 @@ export default function ProfilePage({ ...rest }) {
     classes.imgRoundedCircle,
     classes.imgFluid
   );
+  const { user } = useSelector((state) => state.user);
+
   const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
   return (
     <div>
       <Header
         color="transparent"
-        brand="NextJS Material Kit PRO"
+        brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
           height: 200,
-          color: "info"
+          color: "dark",
         }}
         {...rest}
       />
@@ -80,73 +82,25 @@ export default function ProfilePage({ ...rest }) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={6}>
               <div className={classes.profile}>
-                <div>
-                  <img src={christian} alt="..." className={imageClasses} />
-                </div>
                 <div className={classes.name}>
-                  <h3 className={classes.title}>Christian Louboutin</h3>
-                  <h6>DESIGNER</h6>
-                  <Button
-                    justIcon
-                    simple
-                    color="dribbble"
-                    className={classes.margin5}
-                  >
-                    <i className={classes.socials + " fab fa-dribbble"} />
-                  </Button>
-                  <Button
-                    justIcon
-                    simple
-                    color="twitter"
-                    className={classes.margin5}
-                  >
-                    <i className={classes.socials + " fab fa-twitter"} />
-                  </Button>
-                  <Button
-                    justIcon
-                    simple
-                    color="pinterest"
-                    className={classes.margin5}
-                  >
-                    <i className={classes.socials + " fab fa-pinterest"} />
-                  </Button>
+                  <h3 className={classes.title} style={{color: 'white'}}>My Profile</h3>
+                  <h3 className={classes.title}>
+                    Name: {user.user.displayName}
+                  </h3>
+                  <h3 className={classes.title}>Email: {user.user.email}</h3>
                 </div>
-              </div>
-              <div className={classes.follow}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Follow this user"
-                  placement="top"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button
-                    justIcon
-                    round
-                    color="primary"
-                    className={classes.followButton}
-                  >
-                    <Add className={classes.followIcon} />
-                  </Button>
-                </Tooltip>
               </div>
             </GridItem>
           </GridContainer>
-          <div className={classNames(classes.description, classes.textCenter)}>
-            <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.{" "}
-            </p>
-          </div>
+
           <div className={classes.profileTabs}>
             <NavPills
               alignCenter
               color="primary"
               tabs={[
                 {
-                  tabButton: "Work",
-                  tabIcon: Palette,
+                  tabButton: "Deals",
+                  tabIcon: AttachMoneyIcon,
                   tabContent: (
                     <GridContainer>
                       <GridItem
@@ -155,13 +109,13 @@ export default function ProfilePage({ ...rest }) {
                         md={7}
                         className={classes.gridItem}
                       >
-                        <h4 className={classes.title}>Latest Collections</h4>
+                        <h4 className={classes.title}>Your Deals</h4>
                         <GridContainer className={classes.collections}>
                           <GridItem xs={12} sm={12} md={6}>
                             <Card
                               background
                               style={{
-                                backgroundImage: "url(" + mariyaGeorgieva + ")"
+                                backgroundImage: "url(" + mariyaGeorgieva + ")",
                               }}
                             >
                               <CardBody background className={classes.cardBody}>
@@ -183,7 +137,7 @@ export default function ProfilePage({ ...rest }) {
                             <Card
                               background
                               style={{
-                                backgroundImage: "url(" + clemOnojeghuo + ")"
+                                backgroundImage: "url(" + clemOnojeghuo + ")",
                               }}
                             >
                               <CardBody background className={classes.cardBody}>
@@ -202,7 +156,7 @@ export default function ProfilePage({ ...rest }) {
                             <Card
                               background
                               style={{
-                                backgroundImage: "url(" + oluEletu + ")"
+                                backgroundImage: "url(" + oluEletu + ")",
                               }}
                             >
                               <CardBody background className={classes.cardBody}>
@@ -221,7 +175,7 @@ export default function ProfilePage({ ...rest }) {
                             <Card
                               background
                               style={{
-                                backgroundImage: "url(" + darrenColeshill + ")"
+                                backgroundImage: "url(" + darrenColeshill + ")",
                               }}
                             >
                               <CardBody background className={classes.cardBody}>
@@ -241,45 +195,12 @@ export default function ProfilePage({ ...rest }) {
                           </GridItem>
                         </GridContainer>
                       </GridItem>
-                      <GridItem
-                        xs={12}
-                        sm={12}
-                        md={2}
-                        className={classes.gridItem}
-                      >
-                        <h4 className={classes.title}>Stats</h4>
-                        <ul className={classes.listUnstyled}>
-                          <li>
-                            <b>60</b> Products
-                          </li>
-                          <li>
-                            <b>4</b> Collections
-                          </li>
-                          <li>
-                            <b>331</b> Influencers
-                          </li>
-                          <li>
-                            <b>1.2K</b> Likes
-                          </li>
-                        </ul>
-                        <hr />
-                        <h4 className={classes.title}>About this work</h4>
-                        <p className={classes.description}>
-                          French luxury footwear and fashion. The footwear has
-                          incorporated shiny, red-lacquered soles that have
-                          become his signature.
-                        </p>
-                        <hr />
-                        <h4 className={classes.title}>Focus</h4>
-                        <Badge color="primary">Footwear</Badge>
-                        <Badge color="rose">Luxury</Badge>
-                      </GridItem>
                     </GridContainer>
-                  )
+                  ),
                 },
                 {
-                  tabButton: "Connections",
-                  tabIcon: People,
+                  tabButton: "Orders",
+                  tabIcon: ViewListIcon,
                   tabContent: (
                     <div>
                       <GridContainer justify="center">
@@ -300,7 +221,7 @@ export default function ProfilePage({ ...rest }) {
                                     className={classes.coloredShadow}
                                     style={{
                                       backgroundImage: "url(" + avatar + ")",
-                                      opacity: "1"
+                                      opacity: "1",
                                     }}
                                   />
                                 </CardHeader>
@@ -340,7 +261,7 @@ export default function ProfilePage({ ...rest }) {
                                     className={classes.coloredShadow}
                                     style={{
                                       backgroundImage: "url(" + marc + ")",
-                                      opacity: "1"
+                                      opacity: "1",
                                     }}
                                   />
                                 </CardHeader>
@@ -382,7 +303,7 @@ export default function ProfilePage({ ...rest }) {
                                     className={classes.coloredShadow}
                                     style={{
                                       backgroundImage: "url(" + kendall + ")",
-                                      opacity: "1"
+                                      opacity: "1",
                                     }}
                                   />
                                 </CardHeader>
@@ -422,7 +343,7 @@ export default function ProfilePage({ ...rest }) {
                                     style={{
                                       backgroundImage:
                                         "url(" + cardProfile2Square + ")",
-                                      opacity: "1"
+                                      opacity: "1",
                                     }}
                                   />
                                 </CardHeader>
@@ -445,107 +366,52 @@ export default function ProfilePage({ ...rest }) {
                         </GridItem>
                       </GridContainer>
                     </div>
-                  )
+                  ),
                 },
-                {
-                  tabButton: "Media",
-                  tabIcon: Camera,
-                  tabContent: (
-                    <GridContainer justify="center">
-                      <GridItem xs={12} sm={12} md={3}>
-                        <img
-                          alt="..."
-                          src={mariyaGeorgieva}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={clemOnojegaw}
-                          className={navImageClasses}
-                        />
-                      </GridItem>
-                      <GridItem xs={12} sm={12} md={3}>
-                        <img
-                          alt="..."
-                          src={clemOnojeghuo}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={oluEletu}
-                          className={navImageClasses}
-                        />
-                        <img
-                          alt="..."
-                          src={cynthiaDelRio}
-                          className={navImageClasses}
-                        />
-                      </GridItem>
-                    </GridContainer>
-                  )
-                }
+                // {
+                //   tabButton: "Media",
+                //   tabIcon: Camera,
+                //   tabContent: (
+                //     <GridContainer justify="center">
+                //       <GridItem xs={12} sm={12} md={3}>
+                //         <img
+                //           alt="..."
+                //           src={mariyaGeorgieva}
+                //           className={navImageClasses}
+                //         />
+                //         <img
+                //           alt="..."
+                //           src={clemOnojegaw}
+                //           className={navImageClasses}
+                //         />
+                //       </GridItem>
+                //       <GridItem xs={12} sm={12} md={3}>
+                //         <img
+                //           alt="..."
+                //           src={clemOnojeghuo}
+                //           className={navImageClasses}
+                //         />
+                //         <img
+                //           alt="..."
+                //           src={oluEletu}
+                //           className={navImageClasses}
+                //         />
+                //         <img
+                //           alt="..."
+                //           src={cynthiaDelRio}
+                //           className={navImageClasses}
+                //         />
+                //       </GridItem>
+                //     </GridContainer>
+                //   ),
+                // },
               ]}
             />
           </div>
           <Clearfix />
         </div>
       </div>
-      <Footer
-        content={
-          <div>
-            <div className={classes.left}>
-              <List className={classes.list}>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/?ref=njsmkp-profile"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    Creative Tim
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/presentation?ref=njsmkp-profile"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    About us
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="http://blog.creative-tim.com/?ref=njsmkp-profile"
-                    className={classes.block}
-                  >
-                    Blog
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/license?ref=njsmkp-profile"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    Licenses
-                  </a>
-                </ListItem>
-              </List>
-            </div>
-            <div className={classes.right}>
-              &copy; {1900 + new Date().getYear()} , made with{" "}
-              <Favorite className={classes.icon} /> by{" "}
-              <a
-                href="https://www.creative-tim.com?ref=njsmkp-profile"
-                target="_blank"
-              >
-                Creative Tim
-              </a>{" "}
-              for a better web.
-            </div>
-          </div>
-        }
-      />
+      <MyFooter />
     </div>
   );
 }

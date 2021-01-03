@@ -19,22 +19,33 @@ import { useDispatch, useSelector } from "react-redux";
 import MyFooter from "../components/MyFooter";
 import shoppingCartStyle from "assets/jss/nextjs-material-kit-pro/pages/shoppingCartStyle.js";
 import MyCard from "../components/MyCard";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateItem, deleteItem } from "../store/actions/addItemAction";
-import Router from "next/router";
+import { createOrder } from "../store/actions/orderAction";
 
+import Router from "next/router";
 const useStyles = makeStyles(shoppingCartStyle);
 
 export default function ShoppingCartPage() {
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-  });
+  }, [checked]);
+
   const [total, setTotal] = useState(0);
-  const dispatch = useDispatch;
+  const [checked, setChecked] = useState(false);
+
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { cart } = useSelector((state) => state.cart);
+
+  const handleChange = (event) => {
+    setChecked(!checked);
+    //dispatch delivery to true and to false if clicked
+  };
 
   const handleRemove = (qty) => {
     qty = qty - 1;
@@ -61,17 +72,35 @@ export default function ShoppingCartPage() {
   const handlePurchase = async (total) => {
     const formatTotal = total.replace(".", "");
     const finalTotal = parseInt(formatTotal);
+    let data = null;
     try {
       const response = await fetch(`/api/createOrder/${finalTotal}`);
-      const data = await response.json();
-
-      console.log(data);
+      data = await response.json();
+      if (data != null) {
+        data.delivery = checked;
+        dispatch(createOrder(data));
+        try {
+          cart.map(async (item) => {
+            // const createLineItem = await fetch(`/api/createLineItem/${item.id}`)
+            console.log(item)
+            
+          })
+        } catch (error){
+          console.log('error: ' + error.message)
+        }
+        Router.push('/payment')
+      }
     } catch (error) {
       console.log("error: " + error.message);
     }
   };
 
-  const finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
+  let finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
+
+  if (checked) {
+    finalTotal = (renderTotal() + renderTotal() * 0.137 + 5.95).toFixed(2);
+  }
+
   return (
     <div>
       <Header
@@ -110,7 +139,26 @@ export default function ShoppingCartPage() {
         <div className={classes.container}>
           <Card plain>
             <CardBody plain>
-              <h3 className={classes.cardTitle}>Shopping Cart</h3>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h3 className={classes.cardTitle}>Shopping Cart</h3>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      onChange={handleChange}
+                      name="deliveryCheck"
+                      color="primary"
+                    />
+                  }
+                  label="Check here for Delivery"
+                />
+              </div>
               {cart.map((item) => {
                 return <MyCard item={item} />;
               })}
@@ -134,6 +182,15 @@ export default function ShoppingCartPage() {
               >
                 Taxes: <span>${(renderTotal() * 0.137).toFixed(2)}</span>
               </p>
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Delivery Fee: <span>${checked ? 5.95 : 0}</span>
+              </p>
               <h3
                 style={{
                   display: "flex",
@@ -148,6 +205,7 @@ export default function ShoppingCartPage() {
                 size="md"
                 onClick={() => handlePurchase(finalTotal)}
                 round
+                // href="/payment"
               >
                 COMPLETE PURCHASE
               </Button>

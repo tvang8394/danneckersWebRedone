@@ -54,7 +54,7 @@ export default function SectionProducts({ id, query }) {
     }
     setChecked(newChecked);
   };
-  
+
   const classes = useStyles();
   const priceFormat = (price) => {
     const newPrice = price.toString();
@@ -90,13 +90,12 @@ export default function SectionProducts({ id, query }) {
       qty,
       id,
     };
-    
+
     dispatch(addItem(item));
     setQty(1);
     setOpen(true);
   };
 
-  
   return (
     <div className={classes.section}>
       <div className={classes.container}>
@@ -189,7 +188,11 @@ export default function SectionProducts({ id, query }) {
                               size="sm"
                               round
                               className={classes.firstButton}
-                              onClick={() => setQty(qty - 1)}
+                              onClick={() => {
+                                if (qty > 1) {
+                                  setQty(qty - 1);
+                                }
+                              }}
                             >
                               <Remove />
                             </Button>
@@ -199,7 +202,7 @@ export default function SectionProducts({ id, query }) {
                               round
                               className={classes.lastButton}
                               onClick={() => setQty(qty + 1)}
-                              style={{overflow: 'hidden'}}
+                              style={{ overflow: "hidden" }}
                             >
                               <Add />
                             </Button>
@@ -225,8 +228,7 @@ export default function SectionProducts({ id, query }) {
                                 setQty
                               )
                             }
-                            style={{overflow: 'hidden'}}
-
+                            style={{ overflow: "hidden" }}
                           >
                             Add to Cart
                           </Button>

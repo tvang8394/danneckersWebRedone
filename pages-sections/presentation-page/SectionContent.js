@@ -24,28 +24,34 @@ export default function SectionContent() {
           <GridItem md={4}>
             <div className={classes.sectionDescription}>
               {user ? (
-                <h3 className={classes.title}>Your Deals</h3>
+                <h3 className={classes.title}>
+                  Welcome back {user.user.displayName}
+                </h3>
               ) : (
                 <h3 className={classes.title}>Sign up for a Free account!</h3>
               )}
               <h6 className={classes.description}>Quick and Easy!</h6>
               {user ? (
                 <h5>
-                  Welcome back {user.user.displayName}! Here are your avaliable
-                  deals! Thank You for shopping at Danneckers!
+                  Here are your avaliable deals! Thank You for shopping at
+                  Danneckers!
                 </h5>
               ) : (
-                (<h5 className={classes.description}>
+                <h5 className={classes.description}>
                   Here at Danneckers Grocery & Liquor Store, we care about our
                   customers, neighbors, and communities! Without them, there
                   wouldn't be us. To show our gratitude, we are now offering a
                   customer loyalty reward program. You can now earn points on
                   every penny that they spend here and can be redeemed towards a
                   future purchase!
-                </h5>)
+                </h5>
               )}
             </div>
-            {user ? <Button>View Deals</Button> : <Button href='/signup'>Sign Up</Button>}
+            {user ? (
+              <Button href='/profile'>View Deals</Button>
+            ) : (
+              <Button href="/signup">Sign Up</Button>
+            )}
           </GridItem>
           <GridItem md={7} className={classes.mlAuto}>
             <div className={classes.imageContainer}>

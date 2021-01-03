@@ -155,7 +155,7 @@ export default function HeaderLinks(props) {
 
       {user ? (
         <ListItem className={classes.listItem}>
-          <Link href="/">
+          <Link href="/profile">
             <Button
               color={"white"}
               target="_blank"
