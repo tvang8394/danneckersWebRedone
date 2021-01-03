@@ -15,6 +15,7 @@ import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
 import MuiAlert from "@material-ui/lab/Alert";
 import Check from "@material-ui/icons/Check";
+
 // core components
 import Accordion from "components/Accordion/Accordion.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -30,6 +31,7 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../../store/actions/addItemAction";
 
 import styles from "assets/jss/nextjs-material-kit-pro/pages/ecommerceSections/productsStyle.js";
+import { Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
@@ -41,6 +43,7 @@ export default function SectionProducts({ id, query }) {
   const dispatch = useDispatch();
   const [checked, setChecked] = React.useState([1, 9, 27]);
   const [open, setOpen] = React.useState(false);
+
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -51,6 +54,7 @@ export default function SectionProducts({ id, query }) {
     }
     setChecked(newChecked);
   };
+  
   const classes = useStyles();
   const priceFormat = (price) => {
     const newPrice = price.toString();
@@ -86,11 +90,13 @@ export default function SectionProducts({ id, query }) {
       qty,
       id,
     };
+    
     dispatch(addItem(item));
     setQty(1);
     setOpen(true);
   };
 
+  
   return (
     <div className={classes.section}>
       <div className={classes.container}>
@@ -99,12 +105,12 @@ export default function SectionProducts({ id, query }) {
           <GridItem md={3} sm={3}>
             <Card plain>
               <CardBody className={classes.cardBodyRefine}>
-                <Accordion
+                {/* <Accordion
                   active={[0, 2]}
                   activeColor="rose"
                   collapses={[
                     {
-                      title: "Clothing",
+                      title: "Filter",
                       content: (
                         <div className={classes.customExpandPanel}>
                           <div
@@ -136,161 +142,14 @@ export default function SectionProducts({ id, query }) {
                                 />
                               }
                               classes={{ label: classes.label }}
-                              label="Blazers"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(2)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Casual Shirts"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(3)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Formal Shirts"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(4)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Jeans"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(5)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Polos"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(6)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Pyjamas"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(7)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Shorts"
-                            />
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  disableRipple
-                                  tabIndex={-1}
-                                  onClick={() => handleToggle(8)}
-                                  checkedIcon={
-                                    <Check className={classes.checkedIcon} />
-                                  }
-                                  icon={
-                                    <Check className={classes.uncheckedIcon} />
-                                  }
-                                  classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot,
-                                  }}
-                                />
-                              }
-                              classes={{ label: classes.label }}
-                              label="Trousers"
+                              label="A"
                             />
                           </div>
                         </div>
                       ),
                     },
                   ]}
-                />
+                /> */}
               </CardBody>
             </Card>
           </GridItem>
@@ -340,6 +199,7 @@ export default function SectionProducts({ id, query }) {
                               round
                               className={classes.lastButton}
                               onClick={() => setQty(qty + 1)}
+                              style={{overflow: 'hidden'}}
                             >
                               <Add />
                             </Button>
@@ -365,6 +225,8 @@ export default function SectionProducts({ id, query }) {
                                 setQty
                               )
                             }
+                            style={{overflow: 'hidden'}}
+
                           >
                             Add to Cart
                           </Button>

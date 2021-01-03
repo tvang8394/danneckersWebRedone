@@ -5,17 +5,11 @@ import GridItem from "components/Grid/GridItem.js";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // library used for cool animations
-import ScrollAnimation from "react-animate-on-scroll";
 import { Button } from "@material-ui/core";
 import contentStyle from "assets/jss/nextjs-material-kit-pro/pages/presentationSections/contentStyle.js";
 // images
-import presentationiPad from "assets/img/assets-for-demo/presentationViewSectionComponent/presentation-ipad.jpg";
 import danneckersSign from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerSign.svg";
-import danneckerRewards from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerRewards.svg";
-import danneckerLiquor from "assets/img/assets-for-demo/presentationViewSectionComponent/danneckerLiquor.svg";
 
-import presentationiPadComments from "assets/img/assets-for-demo/presentationViewSectionComponent/ipad-comments.jpg";
-import presentationiPadTable from "assets/img/assets-for-demo/presentationViewSectionComponent/ipad-table.jpg";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(contentStyle);
@@ -51,7 +45,7 @@ export default function SectionContent() {
                 </h3>)
               )}
             </div>
-            {user ? <Button>View Deals</Button> : <Button>Sign Up</Button>}
+            {user ? <Button>View Deals</Button> : <Button href='/signup'>Sign Up</Button>}
           </GridItem>
           <GridItem md={7} className={classes.mlAuto}>
             <div className={classes.imageContainer}>

@@ -4,23 +4,14 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
 // @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
-import Close from "@material-ui/icons/Close";
-import Remove from "@material-ui/icons/Remove";
-import Add from "@material-ui/icons/Add";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Footer from "components/Footer/Footer.js";
-import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -31,6 +22,7 @@ import MyCard from "../components/MyCard";
 
 import { useState } from "react";
 import { updateItem, deleteItem } from "../store/actions/addItemAction";
+import Router from "next/router";
 
 const useStyles = makeStyles(shoppingCartStyle);
 
@@ -50,11 +42,36 @@ export default function ShoppingCartPage() {
   };
 
   const renderTotal = () => {
-    const total = 0;
-    cart.map(item => {
-      
-    })
-  }
+    let prices = [];
+    cart.map((item) => {
+      const priceInt = parseFloat(item.price);
+      if (item.qty > 1) {
+        const newTotal = priceInt * item.qty;
+        prices.push(newTotal);
+      } else {
+        prices.push(priceInt);
+      }
+    });
+    const subTotal = prices.reduce((a, b) => {
+      return a + b;
+    }, 0);
+    return subTotal;
+  };
+
+  const handlePurchase = async (total) => {
+    const formatTotal = total.replace(".", "");
+    const finalTotal = parseInt(formatTotal);
+    try {
+      const response = await fetch(`/api/createOrder/${finalTotal}`);
+      const data = await response.json();
+
+      console.log(data);
+    } catch (error) {
+      console.log("error: " + error.message);
+    }
+  };
+
+  const finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
   return (
     <div>
       <Header
@@ -99,11 +116,39 @@ export default function ShoppingCartPage() {
               })}
             </CardBody>
             <div style={{ alignSelf: "flex-end" }}>
-              <h3>Sub Total: </h3>
-
-              <h3>Total: </h3>
-              <h3></h3>
-              <Button color="info" size="md" href="/payment" round>
+              <h4
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Sub Total: <span>${renderTotal()}</span>
+              </h4>
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Taxes: <span>${(renderTotal() * 0.137).toFixed(2)}</span>
+              </p>
+              <h3
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Total: <span>${finalTotal}</span>
+              </h3>
+              <Button
+                color="info"
+                size="md"
+                onClick={() => handlePurchase(finalTotal)}
+                round
+              >
                 COMPLETE PURCHASE
               </Button>
             </div>

@@ -22,6 +22,7 @@ import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksSty
 import { useSelector, useDispatch } from "react-redux";
 import { loadFirebase } from "../Firebase";
 import { userSignIn } from "../../store/actions/userAction";
+import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles(styles);
 
@@ -70,7 +71,7 @@ export default function HeaderLinks(props) {
   const { dropdownHoverColor } = props;
   const classes = useStyles();
   const { user } = useSelector((state) => state.user);
-
+  const { cart } = useSelector((state) => state.cart);
   const handleLogout = () => {
     let firebase = loadFirebase();
     firebase
@@ -84,7 +85,7 @@ export default function HeaderLinks(props) {
         // An error happened.
       });
   };
-
+  const itemsInCart = cart.length
   return (
     <List className={classes.list + " " + classes.mlAuto}>
       <ListItem className={classes.listItem}>
@@ -140,7 +141,7 @@ export default function HeaderLinks(props) {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Hidden mdDown>
+        <Badge badgeContent={itemsInCart} color="secondary">
           <Button
             href="/shopping-cart"
             color={"white"}
@@ -149,8 +150,7 @@ export default function HeaderLinks(props) {
           >
             <ShoppingCart className={classes.icons} /> Check Out
           </Button>
-        </Hidden>
-        
+        </Badge>
       </ListItem>
 
       {user ? (

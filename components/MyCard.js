@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -11,9 +10,10 @@ import item1 from "../assets/img/examples/item-1.svg";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { Divider } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { deleteItem, updateItem } from "../store/actions/addItemAction";
+
 const useStyles = makeStyles({
   root: {
     maxWidth: "100%",
@@ -24,6 +24,11 @@ const useStyles = makeStyles({
 });
 
 export default function MyCard({ item }) {
+  useEffect(() => {
+    if (item.qty < 1) {
+      item.qty = 1;
+    }
+  }, [item.qty]);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -33,13 +38,16 @@ export default function MyCard({ item }) {
   };
 
   const handleRemove = (item) => {
-    item.qty = item.qty - 1;
-    dispatch(updateItem(item));
+    if (item.qty > 1) {
+      item.qty = item.qty - 1;
+      dispatch(updateItem(item));
+    }
   };
 
-  const handleAdd = (item) => {
+  const handleAdd = (e, item) => {
     item.qty = item.qty + 1;
     dispatch(updateItem(item));
+    e.preventDefault;
   };
 
   return (
@@ -67,10 +75,14 @@ export default function MyCard({ item }) {
             ${item.price} * {item.qty}
           </Typography>
 
-          <IconButton onClick={() => handleAdd(item)}>
+          <IconButton
+            onClick={(e) => {
+              handleAdd(e, item);
+            }}
+          >
             <AddIcon />
           </IconButton>
-          <IconButton onClick={() => handleRemove(item)}>
+          <IconButton onClick={(e) => handleRemove(item)}>
             <RemoveIcon />
           </IconButton>
         </div>
@@ -79,9 +91,13 @@ export default function MyCard({ item }) {
       <CardActions>
         <div>
           <Typography variant="h6" color="textSecondary" component="p">
-            ${item.price * item.qty}
+            ${(item.price * item.qty).toFixed(2)}
           </Typography>
-          <Button size="small" color="primary" onClick={() => handleDelete(id)}>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => handleDelete(item.id)}
+          >
             Remove
           </Button>
         </div>

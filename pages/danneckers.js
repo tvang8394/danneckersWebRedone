@@ -3,18 +3,14 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
-import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import DanneckerCarousel from "../assets/jss/nextjs-material-kit-pro/components/danneckersCarousel";
 
 import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
 // sections for this page
 import SectionDescription from "pages-sections/presentation-page/SectionDescription.js";
 import SectionCards from "pages-sections/presentation-page/SectionCards.js";
@@ -72,11 +68,11 @@ export default function PresentationPage({
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1>
+                <h2>
                   DANNECKER'S
                   <span className={classes.proBadge}>2.0</span>
-                </h1>
-                <h2>WHERE CENTS MEANS DOLLARS</h2>
+                </h2>
+                <h3>WHERE CENTS MEANS DOLLARS</h3>
                 <h3 className={classes.title}>
                   Business Hours: Mon - Sat / 9AM - 9PM & Sun / 11AM - 6PM
                   <br></br>
@@ -88,7 +84,6 @@ export default function PresentationPage({
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <DanneckerCarousel />
 
         <SectionDescription />
         <SectionContent />

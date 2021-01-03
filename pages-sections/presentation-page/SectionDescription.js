@@ -6,9 +6,7 @@ import InfoArea from "components/InfoArea/InfoArea.js";
 
 // @material-ui icons
 import Apps from "@material-ui/icons/Apps";
-import ViewDay from "@material-ui/icons/ViewDay";
 import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
-import ViewCarousel from "@material-ui/icons/ViewCarousel";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
