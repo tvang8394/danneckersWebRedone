@@ -68,7 +68,6 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
 
     dispatch(addItem(item));
     setQty(1);
-    setOpen(true);
   };
   const classes = useStyles();
   return (
@@ -81,7 +80,7 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
             <GridContainer>
               {newBeer.map((item) => {
                 const [qty, setQty] = React.useState(1);
-
+                const newPrice = priceFormat(item.price)
                 return (
                   <>
                     {/* start of each item 1*/}
@@ -176,6 +175,7 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
             <GridContainer>
               {newLiquor.map((item) => {
                 const [qty, setQty] = React.useState(1);
+                const newPrice = priceFormat(item.price)
 
                 return (
                   <>
@@ -271,6 +271,7 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
             <GridContainer>
               {newWine.map((item) => {
                 const [qty, setQty] = React.useState(1);
+                const newPrice = priceFormat(item.price)
 
                 return (
                   <>
@@ -366,6 +367,7 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
             <GridContainer>
               {newGrocery.map((item) => {
                 const [qty, setQty] = React.useState(1);
+                const newPrice = priceFormat(item.price)
 
                 return (
                   <>

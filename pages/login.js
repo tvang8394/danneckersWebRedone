@@ -79,7 +79,7 @@ export default function LoginPage() {
                     className={classes.cardHeader}
                   >
                     <h4 className={classes.cardTitle}>Login</h4>
-                    <div className={classes.socialLine}>
+                    {/* <div className={classes.socialLine}>
                       <Button
                         justIcon
                         color="transparent"
@@ -104,7 +104,7 @@ export default function LoginPage() {
                       >
                         <i className="fab fa-google-plus-g" />
                       </Button>
-                    </div>
+                    </div> */}
                   </CardHeader>
                   <p className={classes.description + " " + classes.textCenter}>
                     Or Be Classical

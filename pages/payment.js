@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MyFooter from "../components/MyFooter";
 import shoppingCartStyle from "assets/jss/nextjs-material-kit-pro/pages/shoppingCartStyle.js";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const useStyles = makeStyles(shoppingCartStyle);
 
@@ -28,17 +28,56 @@ export default function ShoppingCartPage() {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   });
+  const { order } = useSelector((state) => state.order);
+  const { cart } = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    async function postLineItem() {
+      cart.map(async (item) => {
+        try {
+          const createLineItem = await fetch(
+            `/api/createLineItem/${order.id}/${item.id}`
+          );
+          console.log(createLineItem);
+        } catch (error) {
+          console.log("Error: " + error.message);
+        }
+      });
+    }
+
+
+    function updateLineItem() {
+      cart.map((item) => {
+        for (let i = 0; i < item.qty; i++) {
+          if (i < item.qty) {
+            postLineItem();
+            
+          }
+        }
+      });
+    }
+    let updateId = setInterval(() => {
+      updateLineItem();
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(updateId);
+    }, 10000)
+  }, [order, updateId]);
+
+
+
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
+      name: "",
+      email: "",
+    },
+  });
 
-    }
-  })
-  
   return (
     <div>
+      {console.log(order)}
       <Header
         brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}
