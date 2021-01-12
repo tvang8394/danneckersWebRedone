@@ -23,5 +23,6 @@ export default async function createLineItem(req, res) {
     }
   );
   const data = await response.json();
-  console.log(data);
+  res.send(data);
+  
 }

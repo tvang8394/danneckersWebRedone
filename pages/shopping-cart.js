@@ -165,7 +165,7 @@ export default function ShoppingCartPage() {
                   justifyContent: "space-between",
                 }}
               >
-                Sub Total: <span>${renderTotal()}</span>
+                Sub Total: <span>${renderTotal().toFixed(2)}</span>
               </h4>
               <p
                 style={{

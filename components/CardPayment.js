@@ -2,6 +2,21 @@ import React from "react";
 import "../assets/css/payment.module.css";
 import Head from "next/head";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import { useFormik } from "formik";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      marginBottom: '5%',
+      width: "90%",
+    },
+  },
+}));
+
 export default function CardPayment() {
   useEffect(() => {
     const clover = new Clover(process.env.NEXT_PUBLIC_CLOVER_PUBLIC);
@@ -15,7 +30,7 @@ export default function CardPayment() {
         fontSize: "16px",
       },
     };
-
+    
     const form = document.getElementById("payment-form");
 
     const cardNumber = elements.create("CARD_NUMBER", styles);
@@ -95,59 +110,145 @@ export default function CardPayment() {
       hiddenInput.setAttribute("name", "cloverToken");
       hiddenInput.setAttribute("value", token);
       form.appendChild(hiddenInput);
-      alert(token);
+      // const sendPayment = await fetch(
+      //   `/api/payOrder/${order.id}/${token}/tvang8394@gmail.com`
+      // );
+      // const paymentResponse = await sendPayment.json();
+      // console.log(paymentResponse);
+      alert(formik.values.email);
       // form.submit();
     }
   }, []);
 
+  const { order } = useSelector((state) => state.order);
+  const classes = useStyles();
+  
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      address: "",
+      city: "",
+      email: "",
+      zipCode: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   return (
     <>
       <Head>
         <title>Danneckers | Payment</title>
       </Head>
-      <div className="container">
-        <form action="/charge" method="post" id="payment-form">
-          {/* <div class="form-row top-row">
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <>
+            <h3>Shipping Information</h3>
+            <form
+              onSubmit={formik.handleSubmit}
+              className={classes.root}
+              autoComplete="off"
+            >
+              <TextField
+                id="fullName"
+                name="fullName"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.firstName}
+                label="Full Name"
+              />
+              <br />
+              <TextField
+                id="email"
+                name="email"
+                type="email"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                label="Email"
+              />
+              <br />
+              <TextField
+                id="address"
+                name="address"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.address}
+                label="Shipping Address"
+              />
+              <br />
+              <TextField
+                id="city"
+                name="city"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.city}
+                label="City"
+              />
+              <br />
+              <TextField
+                id="zipCode"
+                name="zipCode"
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.zipCode}
+                label="Zip Code"
+              />
+            </form>
+          </>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <div className="container">
+            <form action="/charge" method="post" id="payment-form">
+              {/* <div class="form-row top-row">
             <div id="amount" class="field card-number">
               <input name="amount" placeholder="Amount" />
             </div>
           </div> */}
+              <div class="form-row top-row">
+                <div id="card-number" class="field card-number"></div>
+                <div
+                  class="input-errors"
+                  id="card-number-errors"
+                  role="alert"
+                ></div>
+              </div>
 
-          <div class="form-row top-row">
-            <div id="card-number" class="field card-number"></div>
-            <div
-              class="input-errors"
-              id="card-number-errors"
-              role="alert"
-            ></div>
+              <div class="form-row">
+                <div id="card-date" class="field third-width"></div>
+                <div
+                  class="input-errors"
+                  id="card-date-errors"
+                  role="alert"
+                ></div>
+              </div>
+
+              <div class="form-row">
+                <div id="card-cvv" class="field third-width"></div>
+                <div
+                  class="input-errors"
+                  id="card-cvv-errors"
+                  role="alert"
+                ></div>
+              </div>
+
+              <div class="form-row">
+                <div id="card-postal-code" class="field third-width"></div>
+                <div
+                  class="input-errors"
+                  id="card-postal-code-errors"
+                  role="alert"
+                ></div>
+              </div>
+
+              <div id="card-response" role="alert"></div>
+
+              <div class="button-container">
+                <button>Submit Payment</button>
+              </div>
+            </form>
           </div>
-
-          <div class="form-row">
-            <div id="card-date" class="field third-width"></div>
-            <div class="input-errors" id="card-date-errors" role="alert"></div>
-          </div>
-
-          <div class="form-row">
-            <div id="card-cvv" class="field third-width"></div>
-            <div class="input-errors" id="card-cvv-errors" role="alert"></div>
-          </div>
-
-          <div class="form-row">
-            <div id="card-postal-code" class="field third-width"></div>
-            <div
-              class="input-errors"
-              id="card-postal-code-errors"
-              role="alert"
-            ></div>
-          </div>
-
-          <div id="card-response" role="alert"></div>
-
-          <div class="button-container">
-            <button>Submit Payment</button>
-          </div>
-        </form>
-      </div>
+        </Grid>
+      </Grid>
     </>
   );
 }
