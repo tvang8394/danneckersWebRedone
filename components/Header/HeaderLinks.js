@@ -128,6 +128,19 @@ export default function HeaderLinks(props) {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
+        <Link href="/shop/Tobacco">
+          <Button
+            color={"white"}
+            target="_blank"
+            className={classes.navButton}
+            round
+            style={{ marginRight: "20px" }}
+          >
+            Tobacco
+          </Button>
+        </Link>
+      </ListItem>
+      <ListItem className={classes.listItem}>
         <Link href="/shop/Grocery">
           <Button
             color={"white"}

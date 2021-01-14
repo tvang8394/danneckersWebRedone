@@ -11,15 +11,14 @@ import TextField from "@material-ui/core/TextField";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
-      marginBottom: '5%',
+      marginBottom: "5%",
       width: "90%",
     },
   },
 }));
 
-export default function CardPayment() {
+export default function CardPaymentTest({ clover }) {
   useEffect(() => {
-    const clover = new Clover(process.env.NEXT_PUBLIC_CLOVER_PUBLIC);
     const elements = clover.elements();
     const styles = {
       body: {
@@ -30,7 +29,7 @@ export default function CardPayment() {
         fontSize: "16px",
       },
     };
-    
+
     const form = document.getElementById("payment-form");
 
     const cardNumber = elements.create("CARD_NUMBER", styles);
@@ -87,42 +86,42 @@ export default function CardPayment() {
     });
 
     // Listen for form submission
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      // Use the iframe's tokenization method with the user-entered card details
-      clover.createToken().then(function (result) {
-        if (result.errors) {
-          Object.values(result.errors).forEach(function (value) {
-            displayError.textContent = value;
-          });
-        } else {
-          cloverTokenHandler(result.token);
-        }
-      });
-    });
-
-    //function that deals with token so send token to Firebase here?
-    async function cloverTokenHandler(token) {
-      // Insert the token ID into the form so it gets submitted to the server
-      var form = document.getElementById("payment-form");
-      var hiddenInput = document.createElement("input");
-      hiddenInput.setAttribute("type", "hidden");
-      hiddenInput.setAttribute("name", "cloverToken");
-      hiddenInput.setAttribute("value", token);
-      form.appendChild(hiddenInput);
-      // const sendPayment = await fetch(
-      //   `/api/payOrder/${order.id}/${token}/tvang8394@gmail.com`
-      // );
-      // const paymentResponse = await sendPayment.json();
-      // console.log(paymentResponse);
-      alert(formik.values.email);
-      // form.submit();
-    }
+    // form.addEventListener("submit", function (event) {
+    //   event.preventDefault();
+    //   // Use the iframe's tokenization method with the user-entered card details
+    //   clover.createToken().then(function (result) {
+    //     if (result.errors) {
+    //       Object.values(result.errors).forEach(function (value) {
+    //         displayCardSubmitError.innerText = value || "";
+    //       });
+    //     } else {
+    //       cloverTokenHandler(result.token);
+    //     }
+    //   });
+    //   //function that deals with token so send token to Firebase here?
+    // });
   }, []);
+  async function cloverTokenHandler(token, email) {
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById("payment-form");
+    var hiddenInput = document.createElement("input");
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("name", "cloverToken");
+    hiddenInput.setAttribute("value", token);
+    form.appendChild(hiddenInput);
+    // alert(token);
+    // console.log(email)
 
+    const sendPayment = await fetch(
+      `/api/payOrder/${order.id}/${token}/${email}`
+    );
+    const paymentResponse = await sendPayment.json();
+    console.log(paymentResponse);
+    // form.submit();
+  }
   const { order } = useSelector((state) => state.order);
   const classes = useStyles();
-  
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -132,7 +131,19 @@ export default function CardPayment() {
       zipCode: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      const displayCardSubmitError = document.getElementById(
+        "card-submit-errors"
+      );
+
+      clover.createToken().then(function (result) {
+        if (result.errors) {
+          Object.values(result.errors).forEach(function (value) {
+            displayCardSubmitError.innerText = value || "";
+          });
+        } else {
+          return cloverTokenHandler(result.token, values.email);
+        }
+      });
     },
   });
   return (
@@ -198,12 +209,7 @@ export default function CardPayment() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <div className="container">
-            <form action="/charge" method="post" id="payment-form">
-              {/* <div class="form-row top-row">
-            <div id="amount" class="field card-number">
-              <input name="amount" placeholder="Amount" />
-            </div>
-          </div> */}
+            <form onSubmit={formik.handleSubmit} id="payment-form">
               <div class="form-row top-row">
                 <div id="card-number" class="field card-number"></div>
                 <div
@@ -243,8 +249,13 @@ export default function CardPayment() {
               <div id="card-response" role="alert"></div>
 
               <div class="button-container">
-                <button>Submit Payment</button>
+                <button type="submit">Submit Payment</button>
               </div>
+              <div
+                class="card-submit-errors"
+                id="card-submit-errors"
+                role="alert"
+              ></div>
             </form>
           </div>
         </Grid>

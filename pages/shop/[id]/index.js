@@ -27,6 +27,7 @@ import {
   getLiquorItems,
   getWineItems,
   getGroceryNonTaxItems,
+  getTobaccoItems,
 } from "../../api/getItems";
 
 const useStyles = makeStyles(styles);
@@ -36,12 +37,13 @@ export async function getServerSideProps() {
   const liquor = await getLiquorItems();
   const wine = await getWineItems();
   const groceryNonTax = await getGroceryNonTaxItems();
+  const tobacco = await getTobaccoItems();
   return {
-    props: { beer, liquor, wine, groceryNonTax },
+    props: { beer, liquor, wine, groceryNonTax, tobacco },
   };
 }
 
-export default function EcommercePage({ beer, liquor, wine, groceryNonTax }) {
+export default function EcommercePage({ beer, liquor, wine, groceryNonTax, tobacco }) {
   const router = useRouter();
   const { id } = router.query;
   React.useEffect(() => {
@@ -62,6 +64,9 @@ export default function EcommercePage({ beer, liquor, wine, groceryNonTax }) {
     }
     if (id === "Wine") {
       return <SectionProducts id={id} query={wine} />;
+    }
+    if (id === "Tobacco") {
+      return <SectionProducts id={id} query={tobacco} />;
     }
   };
   return (

@@ -3,6 +3,7 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 import CardPayment from "../components/CardPayment";
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -21,11 +22,12 @@ import MyFooter from "../components/MyFooter";
 import shoppingCartStyle from "assets/jss/nextjs-material-kit-pro/pages/shoppingCartStyle.js";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
-import PaymentFormUser from "../components/PaymentFormUser";
-import PaymentFormNoUser from "../components/PaymentFormNoUser";
+
 const useStyles = makeStyles(shoppingCartStyle);
 
 export default function ShoppingCartPage() {
+  const clover = new Clover(process.env.NEXT_PUBLIC_CLOVER_PUBLIC);
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
@@ -42,27 +44,27 @@ export default function ShoppingCartPage() {
       return response;
     }
 
-    // cart.map((item) => {
-    //   for (let i = 0; i < item.qty; i++) {
-    //     if (i < item.qty) {
-    //       postLineItem(item.id);
-    //     }
-    //   }
-    // });
-    async function getLineItems() {
-      const item = cart.map(async (item) => {
-        const lineItemId = await postLineItem(item.id);
-        const getLineitem = await fetch(`/api/getAllLineItems/${order.id}`);
-        const itemResponse = await getLineitem.json();
-        return itemResponse;
-      });
-      return item;
-    }
+    cart.map((item) => {
+      for (let i = 0; i < item.qty; i++) {
+        if (i < item.qty) {
+          postLineItem(item.id);
+        }
+      }
+    });
+    // async function getLineItems() {
+    //   const item = cart.map(async (item) => {
+    //     const lineItemId = await postLineItem(item.id);
+    //     const getLineitem = await fetch(`/api/getAllLineItems/${order.id}`);
+    //     const itemResponse = await getLineitem.json();
+    //     return itemResponse;
+    //   });
+    //   return item;
+    // }
 
-    async function updateLineItems() {
-      const getLineItemResponse = await getLineItems();
-    }
-    updateLineItems();
+    // async function updateLineItems() {
+    //   const getLineItemResponse = await getLineItems();
+    // }
+    // updateLineItems();
   }, [order]);
 
   const classes = useStyles();
@@ -115,7 +117,7 @@ export default function ShoppingCartPage() {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <CardPayment />
+          <CardPayment clover={clover}/>
         </div>
       </div>
       <MyFooter />
