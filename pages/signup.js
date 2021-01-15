@@ -13,6 +13,10 @@ import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import Check from "@material-ui/icons/Check";
 import AttachMoney from "@material-ui/icons/AttachMoney";
+import HouseIcon from "@material-ui/icons/House";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PublicIcon from "@material-ui/icons/Public";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -31,13 +35,19 @@ import storeFront from "assets/img/storeFront.svg";
 import { loadFirebase } from "../components/Firebase";
 import { userSignIn } from "../store/actions/userAction";
 import Router from "next/router";
+import { create } from "nouislider";
 const useStyles = makeStyles(signupPageStyle);
 
 export default function SignUpPage({ ...rest }) {
   const [checked, setChecked] = React.useState([1]);
-  const [fullName, setFullName] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [state, setState] = React.useState("");
+  const [zip, setZip] = React.useState("");
   const dispatch = useDispatch();
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
@@ -54,7 +64,7 @@ export default function SignUpPage({ ...rest }) {
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let firebase = loadFirebase();
     firebase
       .auth()
@@ -64,18 +74,24 @@ export default function SignUpPage({ ...rest }) {
           var newUser = firebase.auth().currentUser;
           newUser
             .updateProfile({
-              displayName: `${fullName} `,
+              displayName: `${firstName + " " + lastName}`,
             })
             .then(() => {
               //update success
               dispatch(userSignIn(user));
             });
-          Router.push('/danneckers')  
+          Router.push("/danneckers");
           setEmail("");
           setPassword("");
-          setFullName("");
+          setFirstName("");
+          setLastName("");
         }
       });
+    const createCustomer = await fetch(
+      `/api/createCustomer/${firstName}/${lastName}/${address}/${city}/${state}/${zip}/${email}`
+    );
+    const response = await createCustomer.json();
+    console.log(response);
   };
   return (
     <div>
@@ -164,12 +180,35 @@ export default function SignUpPage({ ...rest }) {
                               </InputAdornment>
                             ),
                             type: "text",
-                            placeholder: "Full Name...",
-                            value: fullName,
+                            placeholder: "First Name",
+                            value: firstName,
                             onChange: (e) => {
-                              setFullName(e.target.value);
+                              setFirstName(e.target.value);
                             },
                             name: "firtName",
+                          }}
+                        />
+                        <CustomInput
+                          formControlProps={{
+                            fullWidth: true,
+                            className: classes.customFormControlClasses,
+                          }}
+                          inputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                className={classes.inputAdornment}
+                              >
+                                <Face className={classes.inputAdornmentIcon} />
+                              </InputAdornment>
+                            ),
+                            type: "text",
+                            placeholder: "Last Name",
+                            value: lastName,
+                            onChange: (e) => {
+                              setLastName(e.target.value);
+                            },
+                            name: "lastName",
                           }}
                         />
                         <CustomInput
@@ -193,6 +232,106 @@ export default function SignUpPage({ ...rest }) {
                             onChange: (e) => {
                               setEmail(e.target.value);
                             },
+                          }}
+                        />
+                        <CustomInput
+                          formControlProps={{
+                            fullWidth: true,
+                            className: classes.customFormControlClasses,
+                          }}
+                          inputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                className={classes.inputAdornment}
+                              >
+                                <HouseIcon
+                                  className={classes.inputAdornmentIcon}
+                                />
+                              </InputAdornment>
+                            ),
+                            type: "text",
+                            placeholder: "Address",
+                            value: address,
+                            onChange: (e) => {
+                              setAddress(e.target.value);
+                            },
+                            name: "address",
+                          }}
+                        />
+                        <CustomInput
+                          formControlProps={{
+                            fullWidth: true,
+                            className: classes.customFormControlClasses,
+                          }}
+                          inputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                className={classes.inputAdornment}
+                              >
+                                <LocationCityIcon
+                                  className={classes.inputAdornmentIcon}
+                                />
+                              </InputAdornment>
+                            ),
+                            type: "text",
+                            placeholder: "City",
+                            value: city,
+                            onChange: (e) => {
+                              setCity(e.target.value);
+                            },
+                            name: "city",
+                          }}
+                        />
+                        <CustomInput
+                          formControlProps={{
+                            fullWidth: true,
+                            className: classes.customFormControlClasses,
+                          }}
+                          inputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                className={classes.inputAdornment}
+                              >
+                                <LocationOnIcon
+                                  className={classes.inputAdornmentIcon}
+                                />
+                              </InputAdornment>
+                            ),
+                            type: "text",
+                            placeholder: "State",
+                            value: state,
+                            onChange: (e) => {
+                              setState(e.target.value);
+                            },
+                            name: "state",
+                          }}
+                        />
+                        <CustomInput
+                          formControlProps={{
+                            fullWidth: true,
+                            className: classes.customFormControlClasses,
+                          }}
+                          inputProps={{
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                className={classes.inputAdornment}
+                              >
+                                <PublicIcon
+                                  className={classes.inputAdornmentIcon}
+                                />
+                              </InputAdornment>
+                            ),
+                            type: "text",
+                            placeholder: "Zip",
+                            value: zip,
+                            onChange: (e) => {
+                              setZip(e.target.value);
+                            },
+                            name: "zip",
                           }}
                         />
                         <CustomInput
@@ -245,6 +384,7 @@ export default function SignUpPage({ ...rest }) {
                             </span>
                           }
                         />
+
                         <div className={classes.textCenter}>
                           <Button round color="primary" onClick={handleSubmit}>
                             Get started

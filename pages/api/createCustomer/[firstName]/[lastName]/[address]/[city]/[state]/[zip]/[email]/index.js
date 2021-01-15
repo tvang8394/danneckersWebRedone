@@ -1,21 +1,23 @@
 import fetch from "isomorphic-unfetch";
 
 export default async (req, res) => {
+  const {
+    query: { firstName, lastName, address, city, state, zip, email },
+  } = req;
+
   const newCustomer = {
     addresses: [
       {
-        address1: "671 Jenks Ave",
-        city: "st.paul",
-        country: "United States",
-        phoneNumber: "6513326236",
-        state: "MN",
-        zip: "55106",
+        address1: address,
+        city: city,
+        country: 'US',
+        state: state,
+        zip: zip,
       },
     ],
-    emailAddresses: [{ customer: {}, emailAddress: "tvang8394@gmail.com" }],
-    firstName: "Tom",
-    lastName: "Vang",
-    marketingAllowed: true,
+    emailAddresses: [{ customer: {}, emailAddress: email }],
+    firstName: firstName,
+    lastName: lastName,
   };
 
   const jsonNewCustomer = JSON.stringify(newCustomer);
@@ -26,8 +28,8 @@ export default async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        body: jsonNewCustomer,
       },
+      body: jsonNewCustomer,
     }
   );
   const data = await response.json();
