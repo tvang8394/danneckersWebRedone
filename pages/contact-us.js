@@ -111,22 +111,10 @@ export default function ContactUsPage() {
                   description={
                     <p>
                       Dannecker's <br /> 651-222-7328 <br /> Mon - Sat / 9AM -
-                      9PM & Sun / 11AM - 6PM5
+                      9PM & Sun / 11AM - 6PM
                     </p>
                   }
                   icon={Phone}
-                  iconColor="primary"
-                />
-                <InfoArea
-                  className={classes.info}
-                  title="Legal Information"
-                  description={
-                    <p>
-                      Creative Tim Ltd. <br /> VAT · EN2341241 <br /> IBAN ·
-                      EN8732ENGB2300099123 <br /> Bank · Great Britain Bank
-                    </p>
-                  }
-                  icon={BusinessCenter}
                   iconColor="primary"
                 />
               </GridItem>
