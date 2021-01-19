@@ -7,10 +7,6 @@ import CardPayment from "../components/CardPayment";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 
 // core components
 import Header from "components/Header/Header.js";
@@ -28,7 +24,6 @@ const useStyles = makeStyles(shoppingCartStyle);
 
 export default function ShoppingCartPage() {
   const clover = new Clover(process.env.NEXT_PUBLIC_CLOVER_PUBLIC);
-
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
@@ -36,6 +31,15 @@ export default function ShoppingCartPage() {
   const { order } = useSelector((state) => state.order);
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
+
+  const totalQty = () => {
+    let qty = [];
+    cart.map((item) => {
+      qty.push(item.qty);
+    });
+    return qty;
+  };
+
   useEffect(() => {
     async function postLineItem(itemId) {
       const createLineItem = await fetch(
@@ -44,14 +48,36 @@ export default function ShoppingCartPage() {
       const response = await createLineItem.json();
       return response;
     }
+    const qtyArry = totalQty();
 
-    cart.map((item) => {
-      for (let i = 0; i < item.qty; i++) {
-        if (i < item.qty) {
-          postLineItem(item.id);
-        }
+    const qtyTotal = qtyArry.reduce((a, b) => {
+      return a + b;
+    }, 0);
+    console.log(qtyTotal);
+
+    async function getLineItemForOrder(qtyTotal) {
+      const lineItemForOrder = await fetch(`/api/getAllLineItems/${order.id}`);
+      const response = await lineItemForOrder.json();
+      const lineItems = response["elements"];
+      if (lineItems.length === qtyTotal) {
+        return;
+      } else {
+        cart.map((item) => {
+          for (let i = 0; i < item.qty; i++) {
+            if (i < item.qty) {
+              postLineItem(item.id);
+            }
+          }
+        });
       }
-    });
+    }
+    getLineItemForOrder(qtyTotal);
+    // const lineItemsLength = fetch(`/api/getAllLineItems/${order.id}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     return data["elements"];
+    //   });
+    // console.log(lineItemsLength);
   }, [order]);
 
   const classes = useStyles();

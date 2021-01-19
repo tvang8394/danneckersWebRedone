@@ -50,10 +50,10 @@ export default function ShoppingCartPage() {
     //dispatch delivery to true and to false if clicked
   };
 
-  const handleRemove = (qty) => {
-    qty = qty - 1;
-    dispatch(updateItem(qty));
-  };
+  // const handleRemove = (qty) => {
+  //   qty = qty - 1;
+  //   dispatch(updateItem(qty));
+  // };
 
   const renderTotal = () => {
     let prices = [];
