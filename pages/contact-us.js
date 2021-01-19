@@ -6,8 +6,7 @@ import classNames from "classnames";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+
 // @material-ui/icons
 import Favorite from "@material-ui/icons/Favorite";
 import PinDrop from "@material-ui/icons/PinDrop";
@@ -22,9 +21,9 @@ import InfoArea from "components/InfoArea/InfoArea.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Footer from "components/Footer/Footer.js";
-
+import MyFooter from "../components/MyFooter";
+import Head from "next/head";
 import contactUsStyle from "assets/jss/nextjs-material-kit-pro/pages/contactUsStyle.js";
-
 
 const useStyles = makeStyles(contactUsStyle);
 
@@ -36,16 +35,16 @@ export default function ContactUsPage() {
   const classes = useStyles();
   return (
     <div>
+      <Head>
+        <title>Danneckers | Contact-Page</title>
+      </Head>
       <Header
-        brand="NextJS Material Kit PRO"
+        brand="Dannecker's Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="dark" />}
         fixed
         color="dark"
       />
-      <div className={classes.bigMap}>
-        
-
-      </div>
+      <div className={classes.bigMap}></div>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.contactContent}>
           <div className={classes.container}>
@@ -63,32 +62,32 @@ export default function ContactUsPage() {
                     labelText="Your Name"
                     id="float"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                   <CustomInput
                     labelText="Email address"
                     id="float"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                   <CustomInput
                     labelText="Phone"
                     id="float"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                   />
                   <CustomInput
                     labelText="Your message"
                     id="float"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 6
+                      rows: 6,
                     }}
                   />
                   <div className={classes.textCenter}>
@@ -101,13 +100,8 @@ export default function ContactUsPage() {
               <GridItem md={4} sm={4} className={classes.mlAuto}>
                 <InfoArea
                   className={classes.info}
-                  title="Find us at the office"
-                  description={
-                    <p>
-                      Bld Mihail Kogalniceanu, nr. 8, <br /> 7652 Bucharest,{" "}
-                      <br /> Romania
-                    </p>
-                  }
+                  title="Find us at"
+                  description={<p>793 Randolf Ave, Saint Paul, MN, 55106 </p>}
                   icon={PinDrop}
                   iconColor="primary"
                 />
@@ -116,8 +110,8 @@ export default function ContactUsPage() {
                   title="Give us a ring"
                   description={
                     <p>
-                      Michael Jordan <br /> +40 762 321 762 <br /> Mon - Fri,
-                      8:00-22:00
+                      Dannecker's <br /> 651-222-7328 <br /> Mon - Sat / 9AM -
+                      9PM & Sun / 11AM - 6PM5
                     </p>
                   }
                   icon={Phone}
@@ -140,62 +134,7 @@ export default function ContactUsPage() {
           </div>
         </div>
       </div>
-      <Footer
-        content={
-          <div>
-            <div className={classes.left}>
-              <List className={classes.list}>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/?ref=njsmkp-contact-us"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    Creative Tim
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/presentation?ref=njsmkp-contact-us"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    About us
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="http://blog.creative-tim.com/?ref=njsmkp-contact-us"
-                    className={classes.block}
-                  >
-                    Blog
-                  </a>
-                </ListItem>
-                <ListItem className={classes.inlineBlock}>
-                  <a
-                    href="https://www.creative-tim.com/license?ref=njsmkp-contact-us"
-                    target="_blank"
-                    className={classes.block}
-                  >
-                    Licenses
-                  </a>
-                </ListItem>
-              </List>
-            </div>
-            <div className={classes.right}>
-              &copy; {1900 + new Date().getYear()} , made with{" "}
-              <Favorite className={classes.icon} /> by{" "}
-              <a
-                href="https://www.creative-tim.com?ref=njsmkp-contact-us"
-                target="_blank"
-              >
-                Creative Tim
-              </a>{" "}
-              for a better web.
-            </div>
-          </div>
-        }
-      />
+      <MyFooter />
     </div>
   );
 }

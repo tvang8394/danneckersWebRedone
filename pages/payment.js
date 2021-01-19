@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import Head from "next/head";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 import CardPayment from "../components/CardPayment";
@@ -51,38 +52,15 @@ export default function ShoppingCartPage() {
         }
       }
     });
-    // async function getLineItems() {
-    //   const item = cart.map(async (item) => {
-    //     const lineItemId = await postLineItem(item.id);
-    //     const getLineitem = await fetch(`/api/getAllLineItems/${order.id}`);
-    //     const itemResponse = await getLineitem.json();
-    //     return itemResponse;
-    //   });
-    //   return item;
-    // }
-
-    // async function updateLineItems() {
-    //   const getLineItemResponse = await getLineItems();
-    // }
-    // updateLineItems();
   }, [order]);
 
   const classes = useStyles();
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      address: "",
-      city: "",
-      email: "",
-      zipCode: "",
-    },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
 
   return (
     <div>
+      <Head>
+        <title>Dannecker's | Payment</title>
+      </Head>
       <Header
         brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}
@@ -117,7 +95,7 @@ export default function ShoppingCartPage() {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <CardPayment clover={clover}/>
+          <CardPayment clover={clover} />
         </div>
       </div>
       <MyFooter />

@@ -22,6 +22,8 @@ import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksSty
 import { useSelector, useDispatch } from "react-redux";
 import { loadFirebase } from "../Firebase";
 import { userSignIn } from "../../store/actions/userAction";
+import { userSignOut } from "../../store/actions/userAction";
+
 import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles(styles);
@@ -79,7 +81,7 @@ export default function HeaderLinks(props) {
       .signOut()
       .then(function () {
         // Sign-out successful.
-        dispatch(userSignIn(null));
+        dispatch(userSignOut(null));
       })
       .catch(function (error) {
         // An error happened.

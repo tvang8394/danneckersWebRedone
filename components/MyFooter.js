@@ -37,7 +37,7 @@ export default function MyFooter() {
             <ul>
               <li>
                 <Button
-                  href="/"
+                  href="https://www.facebook.com/Danneckers/"
                   target="_blank"
                   color="facebook"
                   justIcon
@@ -47,7 +47,7 @@ export default function MyFooter() {
                 </Button>
               </li>
               <li>
-                <Button
+                {/* <Button
                   href="/"
                   target="_blank"
                   color="twitter"
@@ -55,10 +55,10 @@ export default function MyFooter() {
                   simple
                 >
                   <i className="fab fa-twitter" />
-                </Button>
+                </Button> */}
               </li>
 
-              <li>
+              {/* <li>
                 <Button
                   href="/"
                   target="_blank"
@@ -68,7 +68,7 @@ export default function MyFooter() {
                 >
                   <i className="fab fa-instagram" />
                 </Button>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

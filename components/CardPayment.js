@@ -85,21 +85,7 @@ export default function CardPaymentTest({ clover }) {
       displayCardPostalCodeError.innerHTML = event.CARD_POSTAL_CODE.error || "";
     });
 
-    // Listen for form submission
-    // form.addEventListener("submit", function (event) {
-    //   event.preventDefault();
-    //   // Use the iframe's tokenization method with the user-entered card details
-    //   clover.createToken().then(function (result) {
-    //     if (result.errors) {
-    //       Object.values(result.errors).forEach(function (value) {
-    //         displayCardSubmitError.innerText = value || "";
-    //       });
-    //     } else {
-    //       cloverTokenHandler(result.token);
-    //     }
-    //   });
-    //   //function that deals with token so send token to Firebase here?
-    // });
+    
   }, []);
   async function cloverTokenHandler(token, email) {
     // Insert the token ID into the form so it gets submitted to the server

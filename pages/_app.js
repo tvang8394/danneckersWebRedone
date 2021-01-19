@@ -86,7 +86,7 @@ class MyApp extends App {
       <React.Fragment>
         <Head>
 
-          <title>Danneckers | Liquor and Grocery</title>
+          <title>Dannecker's | Liquor and Grocery</title>
         </Head>
         <Provider store={store}>
           <PersistGate persistor={persistor}>

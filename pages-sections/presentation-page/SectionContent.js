@@ -25,7 +25,7 @@ export default function SectionContent() {
             <div className={classes.sectionDescription}>
               {user ? (
                 <h3 className={classes.title}>
-                  Welcome back {user.user.displayName}
+                  Welcome back {user.displayName}
                 </h3>
               ) : (
                 <h3 className={classes.title}>Sign up for a Free account!</h3>

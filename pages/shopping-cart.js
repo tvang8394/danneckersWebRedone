@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import Head from 'next/head';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -22,7 +23,6 @@ import MyCard from "../components/MyCard";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import Alert from "@material-ui/lab/Alert";
 
 import { useState, useEffect } from "react";
 import { updateItem, deleteItem } from "../store/actions/addItemAction";
@@ -97,6 +97,9 @@ export default function ShoppingCartPage() {
 
   return (
     <div>
+    <Head>
+      <title>Dannecker's | Check Out</title>
+    </Head>
       <Header
         brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}

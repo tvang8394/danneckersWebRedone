@@ -15,11 +15,10 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Parallax from "components/Parallax/Parallax.js";
-import Button from "components/CustomButtons/Button.js";
 import MyFooter from "../../../components/MyFooter";
-import Footer from "components/Footer/Footer.js";
 // sections for this page
 import SectionProducts from "pages-sections/ecommerce/SectionProducts.js";
+import Head from 'next/head';
 
 import styles from "assets/jss/nextjs-material-kit-pro/pages/ecommerceStyle.js";
 import {
@@ -71,6 +70,11 @@ export default function EcommercePage({ beer, liquor, wine, groceryNonTax, tobac
   };
   return (
     <div>
+    <Head>
+      <title>
+        Dannecker's | {id}
+      </title>
+    </Head>
       <Header
         brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}

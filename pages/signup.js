@@ -69,8 +69,13 @@ export default function SignUpPage({ ...rest }) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((user) => {
+      .then(async (user) => {
         if (user) {
+          const createCustomer = await fetch(
+            `/api/createCustomer/${firstName}/${lastName}/${address}/${city}/${state}/${zip}/${email}`
+          );
+          const response = await createCustomer.json();
+          console.log(response);
           var newUser = firebase.auth().currentUser;
           newUser
             .updateProfile({
@@ -78,7 +83,7 @@ export default function SignUpPage({ ...rest }) {
             })
             .then(() => {
               //update success
-              dispatch(userSignIn(user));
+              dispatch(userSignIn(user, response.id));
             });
           Router.push("/danneckers");
           setEmail("");
@@ -87,11 +92,11 @@ export default function SignUpPage({ ...rest }) {
           setLastName("");
         }
       });
-    const createCustomer = await fetch(
-      `/api/createCustomer/${firstName}/${lastName}/${address}/${city}/${state}/${zip}/${email}`
-    );
-    const response = await createCustomer.json();
-    console.log(response);
+    // const createCustomer = await fetch(
+    //   `/api/createCustomer/${firstName}/${lastName}/${address}/${city}/${state}/${zip}/${email}`
+    // );
+    // const response = await createCustomer.json();
+    // console.log(response);
   };
   return (
     <div>
