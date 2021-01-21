@@ -53,7 +53,6 @@ export default function ShoppingCartPage() {
     const qtyTotal = qtyArry.reduce((a, b) => {
       return a + b;
     }, 0);
-    console.log(qtyTotal);
 
     async function getLineItemForOrder(qtyTotal) {
       const lineItemForOrder = await fetch(`/api/getAllLineItems/${order.id}`);
@@ -72,12 +71,6 @@ export default function ShoppingCartPage() {
       }
     }
     getLineItemForOrder(qtyTotal);
-    // const lineItemsLength = fetch(`/api/getAllLineItems/${order.id}`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     return data["elements"];
-    //   });
-    // console.log(lineItemsLength);
   }, [order]);
 
   const classes = useStyles();

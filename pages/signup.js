@@ -3,6 +3,7 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
@@ -35,19 +36,20 @@ import storeFront from "assets/img/storeFront.svg";
 import { loadFirebase } from "../components/Firebase";
 import { userSignIn } from "../store/actions/userAction";
 import Router from "next/router";
-import { create } from "nouislider";
+import { useFormik } from "formik";
+
 const useStyles = makeStyles(signupPageStyle);
 
 export default function SignUpPage({ ...rest }) {
-  const [checked, setChecked] = React.useState([1]);
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-  const [zip, setZip] = React.useState("");
+  // const [checked, setChecked] = React.useState([1]);
+  // const [firstName, setFirstName] = React.useState("");
+  // const [lastName, setLastName] = React.useState("");
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
+  // const [address, setAddress] = React.useState("");
+  // const [city, setCity] = React.useState("");
+  // const [state, setState] = React.useState("");
+  // const [zip, setZip] = React.useState("");
   const dispatch = useDispatch();
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
@@ -98,6 +100,88 @@ export default function SignUpPage({ ...rest }) {
     // const response = await createCustomer.json();
     // console.log(response);
   };
+
+  const validate = (values) => {
+    if (!values.firstName) {
+      formik.errors.firstName = "Required";
+    } else if (values.firstName) {
+      formik.errors.firstName = "";
+    }
+    if (!values.lastName) {
+      formik.errors.lasttName = "Required";
+    } else if (values.lastName) {
+      formik.errors.lastName = "";
+    }
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      formik.errors.email = "Invalid email address";
+    } else if (values.email) {
+      formik.errors.email = "";
+    }
+
+    if (!values.address) {
+      formik.errors.address = "Required";
+    } else if (values.address) {
+      formik.errors.address = "";
+    }
+    if (!values.city) {
+      formik.errors.city = "Required";
+    } else if (values.city) {
+      formik.errors.city = "";
+    }
+
+    if (!values.zipCode) {
+      formik.errors.zipCode = "Required";
+    } else if (values.zipCode) {
+      formik.errors.zipCode = "";
+    }
+    if (!values.password.length) {
+      formik.errors.password = "Required";
+    } else if (values.password < 5) {
+      formik.errors.password = "Needs at least 6 characters";
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastname: "",
+      email: "",
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      password: "",
+    },
+    validate,
+    onSubmit: async (values) => {
+      console.log(values);
+      let firebase = loadFirebase();
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(values.email, values.password)
+        .then(async (user) => {
+          if (user) {
+            const createCustomer = await fetch(
+              `/api/createCustomer/${values.firstName}/${values.lastName}/${values.address}/${values.city}/${values.state}/${values.zipCode}/${values.email}`
+            );
+            const response = await createCustomer.json();
+            console.log(response);
+            var newUser = firebase.auth().currentUser;
+            newUser
+              .updateProfile({
+                displayName: `${values.firstName + " " + values.lastName}`,
+              })
+              .then(() => {
+                //update success
+                dispatch(userSignIn(user, response.id));
+              });
+            Router.push("/danneckers");
+          }
+        });
+    },
+  });
+
   return (
     <div>
       <Header
@@ -169,229 +253,172 @@ export default function SignUpPage({ ...rest }) {
                       </div>
                       */}
 
-                      <form className={classes.form}>
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                      <form
+                        className={classes.form}
+                        onSubmit={formik.handleSubmit}
+                      >
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.firstName}
+                          onBlur={formik.handleBlur}
+                          name="firstName"
+                          id="firstName"
+                          label="First Name"
+                          type="text"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <Face className={classes.inputAdornmentIcon} />
+                              <InputAdornment position="start">
+                                <Face />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "First Name",
-                            value: firstName,
-                            onChange: (e) => {
-                              setFirstName(e.target.value);
-                            },
-                            name: "firtName",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.firstName && formik.errors.firstName ? (
+                          <div style={{color: 'red'}}>{formik.errors.firstName}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.lastName}
+                          onBlur={formik.handleBlur}
+                          name="lastName"
+                          id="lastName"
+                          type="text"
+                          label="Last Name"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <Face className={classes.inputAdornmentIcon} />
+                              <InputAdornment position="start">
+                                <Face />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "Last Name",
-                            value: lastName,
-                            onChange: (e) => {
-                              setLastName(e.target.value);
-                            },
-                            name: "lastName",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.lastName && formik.errors.firstName ? (
+                          <div style={{color: 'red'}}>{formik.errors.firstName}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.email}
+                          onBlur={formik.handleBlur}
+                          name="email"
+                          id="email"
+                          label="Email"
+                          type="email"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <Email className={classes.inputAdornmentIcon} />
+                              <InputAdornment position="start">
+                                <Email />
                               </InputAdornment>
                             ),
-                            type: "email",
-                            placeholder: "Email...",
-                            name: "email",
-                            value: email,
-                            onChange: (e) => {
-                              setEmail(e.target.value);
-                            },
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.email && formik.errors.email ? (
+                          <div style={{color: 'red'}}>{formik.errors.email}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.address}
+                          onBlur={formik.handleBlur}
+                          name="address"
+                          id="address"
+                          label="Address"
+                          type="text"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <HouseIcon
-                                  className={classes.inputAdornmentIcon}
-                                />
+                              <InputAdornment position="start">
+                                <HouseIcon />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "Address",
-                            value: address,
-                            onChange: (e) => {
-                              setAddress(e.target.value);
-                            },
-                            name: "address",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.address && formik.errors.address ? (
+                          <div style={{color: 'red'}}>{formik.errors.address}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.city}
+                          onBlur={formik.handleBlur}
+                          name="city"
+                          id="city"
+                          label="City"
+                          type="text"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <LocationCityIcon
-                                  className={classes.inputAdornmentIcon}
-                                />
+                              <InputAdornment position="start">
+                                <LocationCityIcon />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "City",
-                            value: city,
-                            onChange: (e) => {
-                              setCity(e.target.value);
-                            },
-                            name: "city",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.city && formik.errors.city ? (
+                          <div style={{color: 'red'}}>{formik.errors.city}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.state}
+                          onBlur={formik.handleBlur}
+                          name="state"
+                          id="state"
+                          label="State"
+                          type="text"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <LocationOnIcon
-                                  className={classes.inputAdornmentIcon}
-                                />
+                              <InputAdornment position="start">
+                                <LocationOnIcon />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "State",
-                            value: state,
-                            onChange: (e) => {
-                              setState(e.target.value);
-                            },
-                            name: "state",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.state && formik.errors.state ? (
+                          <div style={{color: 'red'}}>{formik.errors.state}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.zipCode}
+                          onBlur={formik.handleBlur}
+                          name="zipCode"
+                          id="zipCode"
+                          label="Zip Code"
+                          type="text"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <PublicIcon
-                                  className={classes.inputAdornmentIcon}
-                                />
+                              <InputAdornment position="start">
+                                <PublicIcon />
                               </InputAdornment>
                             ),
-                            type: "text",
-                            placeholder: "Zip",
-                            value: zip,
-                            onChange: (e) => {
-                              setZip(e.target.value);
-                            },
-                            name: "zip",
                           }}
                         />
-                        <CustomInput
-                          formControlProps={{
-                            fullWidth: true,
-                            className: classes.customFormControlClasses,
-                          }}
-                          inputProps={{
+                        {formik.touched.zipCode && formik.errors.zipCode ? (
+                          <div style={{color: 'red'}}>{formik.errors.zipCode}</div>
+                        ) : null}
+                        <TextField
+                          className={classes.margin}
+                          onChange={formik.handleChange}
+                          value={formik.password}
+                          onBlur={formik.handleBlur}
+                          name="password"
+                          id="password"
+                          type="password"
+                          label="Password"
+                          InputProps={{
                             startAdornment: (
-                              <InputAdornment
-                                position="start"
-                                className={classes.inputAdornment}
-                              >
-                                <Icon className={classes.inputAdornmentIcon}>
-                                  lock_outline
-                                </Icon>
+                              <InputAdornment position="start">
+                                <Check />
                               </InputAdornment>
                             ),
-                            type: "password",
-                            placeholder: "Password...",
-                            value: password,
-                            onChange: (e) => {
-                              setPassword(e.target.value);
-                            },
                           }}
                         />
-                        <FormControlLabel
-                          classes={{
-                            label: classes.label,
-                          }}
-                          control={
-                            <Checkbox
-                              tabIndex={-1}
-                              onClick={() => handleToggle(1)}
-                              checkedIcon={
-                                <Check className={classes.checkedIcon} />
-                              }
-                              icon={<Check className={classes.uncheckedIcon} />}
-                              classes={{
-                                checked: classes.checked,
-                                root: classes.checkRoot,
-                              }}
-                              checked={checked.indexOf(1) !== -1 ? true : false}
-                            />
-                          }
-                          label={
-                            <span>
-                              I agree to the{" "}
-                              <a href="#pablo">terms and conditions</a>.
-                            </span>
-                          }
-                        />
-
+                        {formik.touched.password && formik.errors.password ? (
+                          <div style={{color: 'red'}}>{formik.errors.password}</div>
+                        ) : null}
                         <div className={classes.textCenter}>
-                          <Button round color="primary" onClick={handleSubmit}>
+                          <Button round color="primary" type="submit">
                             Get started
                           </Button>
                         </div>

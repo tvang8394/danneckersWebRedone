@@ -84,8 +84,6 @@ export default function CardPaymentTest({ clover }) {
     cardPostalCode.addEventListener("blur", function (event) {
       displayCardPostalCodeError.innerHTML = event.CARD_POSTAL_CODE.error || "";
     });
-
-    
   }, []);
   async function cloverTokenHandler(token, email) {
     // Insert the token ID into the form so it gets submitted to the server
@@ -108,6 +106,37 @@ export default function CardPaymentTest({ clover }) {
   const { order } = useSelector((state) => state.order);
   const classes = useStyles();
 
+  const validate = (values) => {
+    if (!values.fullName) {
+      formik.errors.fullName = "Required";
+    } else if (values.fullName) {
+      formik.errors.fullName = "";
+    }
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      formik.errors.email = "Invalid email address";
+    } else if (values.email) {
+      formik.errors.email = "";
+    }
+
+    if (!values.address) {
+      formik.errors.address = "Required";
+    } else if (values.address) {
+      formik.errors.address = "";
+    }
+    if (!values.city) {
+      formik.errors.city = "Required";
+    } else if (values.city) {
+      formik.errors.city = "";
+    }
+
+    if (!values.zipCode) {
+      formik.errors.zipCode = "Required";
+    } else if (values.zipCode) {
+      formik.errors.zipCode = "";
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -116,6 +145,7 @@ export default function CardPaymentTest({ clover }) {
       email: "",
       zipCode: "",
     },
+    validate,
     onSubmit: (values) => {
       const displayCardSubmitError = document.getElementById(
         "card-submit-errors"
@@ -132,6 +162,7 @@ export default function CardPaymentTest({ clover }) {
       });
     },
   });
+
   return (
     <>
       <Head>
@@ -151,9 +182,14 @@ export default function CardPaymentTest({ clover }) {
                 name="fullName"
                 type="text"
                 onChange={formik.handleChange}
-                value={formik.values.firstName}
+                onBlur={formik.handleBlur}
+                value={formik.values.fullName}
                 label="Full Name"
               />
+
+              {formik.errors.fullName ? (
+                <div style={{color: 'red'}}>{formik.errors.fullName}</div>
+              ) : null}
               <br />
               <TextField
                 id="email"
@@ -163,6 +199,7 @@ export default function CardPaymentTest({ clover }) {
                 value={formik.values.email}
                 label="Email"
               />
+              {formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
               <br />
               <TextField
                 id="address"
@@ -172,6 +209,9 @@ export default function CardPaymentTest({ clover }) {
                 value={formik.values.address}
                 label="Shipping Address"
               />
+              {formik.errors.address ? (
+                <div style={{color: 'red'}}>{formik.errors.address}</div>
+              ) : null}
               <br />
               <TextField
                 id="city"
@@ -181,6 +221,7 @@ export default function CardPaymentTest({ clover }) {
                 value={formik.values.city}
                 label="City"
               />
+              {formik.errors.city ? <div style={{color: 'red'}}>{formik.errors.city}</div> : null}
               <br />
               <TextField
                 id="zipCode"
@@ -190,6 +231,9 @@ export default function CardPaymentTest({ clover }) {
                 value={formik.values.zipCode}
                 label="Zip Code"
               />
+              {formik.errors.zipCode ? (
+                <div style={{color: 'red'}}>{formik.errors.zipCode}</div>
+              ) : null}
             </form>
           </>
         </Grid>
