@@ -27,6 +27,7 @@ import {
   getWineItems,
   getGroceryNonTaxItems,
   getTobaccoItems,
+  getGroceryTaxItems
 } from "../../api/getItems";
 
 const useStyles = makeStyles(styles);
@@ -37,12 +38,14 @@ export async function getServerSideProps() {
   const wine = await getWineItems();
   const groceryNonTax = await getGroceryNonTaxItems();
   const tobacco = await getTobaccoItems();
+  const groceryTax = await getGroceryTaxItems();
+
   return {
-    props: { beer, liquor, wine, groceryNonTax, tobacco },
+    props: { beer, liquor, wine, groceryNonTax, tobacco, groceryTax },
   };
 }
 
-export default function EcommercePage({ beer, liquor, wine, groceryNonTax, tobacco }) {
+export default function EcommercePage({ beer, liquor, wine, groceryNonTax, tobacco, groceryTax }) {
   const router = useRouter();
   const { id } = router.query;
   React.useEffect(() => {
@@ -53,19 +56,19 @@ export default function EcommercePage({ beer, liquor, wine, groceryNonTax, tobac
 
   const renderItem = () => {
     if (id === "Beer") {
-      return <SectionProducts id={id} query={beer} />;
+      return <SectionProducts sectionId={id} query={beer} />;
     }
     if (id === "Liquor") {
-      return <SectionProducts id={id} query={liquor} />;
+      return <SectionProducts sectionId={id} query={liquor} />;
     }
     if (id === "Grocery") {
-      return <SectionProducts id={id} query={groceryNonTax} />;
+      return <SectionProducts sectionId={id} query={groceryTax} />;
     }
     if (id === "Wine") {
-      return <SectionProducts id={id} query={wine} />;
+      return <SectionProducts sectionId={id} query={wine} />;
     }
     if (id === "Tobacco") {
-      return <SectionProducts id={id} query={tobacco} />;
+      return <SectionProducts sectionId={id} query={tobacco} />;
     }
   };
   return (

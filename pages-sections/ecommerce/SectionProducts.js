@@ -31,7 +31,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SectionProducts({ id, query }) {
+export default function SectionProducts({ sectionId, query }) {
   const dispatch = useDispatch();
   const [checked, setChecked] = React.useState([1, 9, 27]);
   const [open, setOpen] = React.useState(false);
@@ -76,11 +76,23 @@ export default function SectionProducts({ id, query }) {
   };
 
   const handleAddtoCart = (name, price, qty, id, setQty) => {
+    let taxRate = 0;
+    if (
+      sectionId === "Beer" ||
+      sectionId === "Liquor" ||
+      sectionId === "Wine"
+    ) {
+      taxRate = 0.10375;
+    } else if (sectionId === "Grocery") {
+      taxRate = 0.7875;
+    }
+
     const item = {
       name,
       price,
       qty,
       id,
+      taxRate,
     };
 
     dispatch(addItem(item));
@@ -91,7 +103,7 @@ export default function SectionProducts({ id, query }) {
   return (
     <div className={classes.section}>
       <div className={classes.container}>
-        <h2>{id}</h2>
+        <h2>{sectionId}</h2>
         <GridContainer>
           <GridItem md={3} sm={3}>
             <Card plain>
@@ -148,13 +160,16 @@ export default function SectionProducts({ id, query }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {query.map((item) => {
+                {
+                  console.log(item);
+                }
                 const [qty, setQty] = React.useState(1);
                 const newPrice = priceFormat(item.price);
                 return (
                   <>
                     {/* start of each item 1*/}
                     <GridItem md={3} sm={6} key={item.name}>
-                      <Card  plain product style={{height: '90%'}}>
+                      <Card plain product style={{ height: "90%" }}>
                         <CardHeader noShadow image>
                           <img src={suit1} alt={item.name} />
                         </CardHeader>

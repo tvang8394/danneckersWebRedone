@@ -95,3 +95,18 @@ export async function getTobaccoItems(req, res) {
   return items["elements"];
 }
 
+export async function getGroceryTaxItems(req, res) {
+  const response = await fetch(
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_TAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    }
+  );
+  
+
+  const items = await response.json();
+  return items["elements"];
+}

@@ -58,9 +58,22 @@ export default function ShoppingCartPage() {
       const lineItemForOrder = await fetch(`/api/getAllLineItems/${order.id}`);
       const response = await lineItemForOrder.json();
       const lineItems = response["elements"];
-      if (lineItems.length === qtyTotal) {
-        return;
-      } else {
+      if (order.delivery === true) {
+        if (lineItems.length !== qtyTotal + 1) {
+          cart.map((item) => {
+            for (let i = 0; i < item.qty; i++) {
+              if (i < item.qty) {
+                postLineItem(item.id);
+              }
+            }
+          });
+          const createDeliveryCharge = await fetch(
+            `/api/createLineItem/${order.id}/EEZJ91W5NC8BT`
+          );
+          const response = await createDeliveryCharge.json();
+          console.log(response);
+        }
+      } else if (lineItems.length !== qtyTotal) {
         cart.map((item) => {
           for (let i = 0; i < item.qty; i++) {
             if (i < item.qty) {
@@ -68,6 +81,8 @@ export default function ShoppingCartPage() {
             }
           }
         });
+      } else {
+        return;
       }
     }
     getLineItemForOrder(qtyTotal);

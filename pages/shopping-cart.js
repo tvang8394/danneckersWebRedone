@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React from "react";
-import Head from 'next/head';
+import Head from "next/head";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -23,7 +23,6 @@ import MyCard from "../components/MyCard";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-
 import { useState, useEffect } from "react";
 import { updateItem, deleteItem } from "../store/actions/addItemAction";
 import { createOrder } from "../store/actions/orderAction";
@@ -36,7 +35,6 @@ export default function ShoppingCartPage() {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   }, [checked]);
-
 
   const [total, setTotal] = useState(0);
   const [checked, setChecked] = useState(false);
@@ -60,7 +58,41 @@ export default function ShoppingCartPage() {
     cart.map((item) => {
       const priceInt = parseFloat(item.price);
       if (item.qty > 1) {
+        const newTotal = (priceInt + priceInt * item.taxRate) * item.qty;
+        prices.push(newTotal);
+      } else {
+        prices.push(priceInt);
+      }
+    });
+    const subTotal = prices.reduce((a, b) => {
+      return a + b;
+    }, 0);
+    return subTotal;
+  };
+
+  const renderSubTotal = () => {
+    let prices = [];
+    cart.map((item) => {
+      const priceInt = parseFloat(item.price);
+      if (item.qty > 1) {
         const newTotal = priceInt * item.qty;
+        prices.push(newTotal);
+      } else {
+        prices.push(priceInt);
+      }
+    });
+    const subTotal = prices.reduce((a, b) => {
+      return a + b;
+    }, 0);
+    return subTotal;
+  };
+
+  const renderTaxes = () => {
+    let prices = [];
+    cart.map((item) => {
+      const priceInt = parseFloat(item.price);
+      if (item.qty) {
+        const newTotal = priceInt * item.taxRate * item.qty;
         prices.push(newTotal);
       } else {
         prices.push(priceInt);
@@ -89,17 +121,17 @@ export default function ShoppingCartPage() {
     }
   };
 
-  let finalTotal = (renderTotal() + renderTotal() * 0.137).toFixed(2);
+  let finalTotal = renderTotal().toFixed(2);
 
   if (checked) {
-    finalTotal = (renderTotal() + renderTotal() * 0.137 + 5.95).toFixed(2);
+    finalTotal = (renderTotal() + 5.95).toFixed(2);
   }
 
   return (
     <div>
-    <Head>
-      <title>Dannecker's | Check Out</title>
-    </Head>
+      <Head>
+        <title>Dannecker's | Check Out</title>
+      </Head>
       <Header
         brand="Danneckers Liquor & Grocery"
         links={<HeaderLinks dropdownHoverColor="info" />}
@@ -168,7 +200,7 @@ export default function ShoppingCartPage() {
                   justifyContent: "space-between",
                 }}
               >
-                Sub Total: <span>${renderTotal().toFixed(2)}</span>
+                Sub Total: <span>${renderSubTotal().toFixed(2)}</span>
               </h4>
               <p
                 style={{
@@ -177,7 +209,7 @@ export default function ShoppingCartPage() {
                   justifyContent: "space-between",
                 }}
               >
-                Taxes: <span>${(renderTotal() * 0.137).toFixed(2)}</span>
+                Taxes: <span>${renderTaxes().toFixed(2)}</span>
               </p>
               <p
                 style={{
@@ -206,7 +238,6 @@ export default function ShoppingCartPage() {
               >
                 COMPLETE PURCHASE
               </Button>
-
             </div>
           </Card>
         </div>
