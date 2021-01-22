@@ -2,19 +2,12 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // plugin that creates slider
-import Slider from "nouislider";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 // @material-ui icons
-import Favorite from "@material-ui/icons/Favorite";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
 import MuiAlert from "@material-ui/lab/Alert";
-import Check from "@material-ui/icons/Check";
 
 // core components
 import Accordion from "components/Accordion/Accordion.js";
@@ -31,7 +24,6 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../../store/actions/addItemAction";
 
 import styles from "assets/jss/nextjs-material-kit-pro/pages/ecommerceSections/productsStyle.js";
-import { Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
@@ -153,7 +145,7 @@ export default function SectionProducts({ id, query }) {
             </Card>
           </GridItem>
           {/* end of menu */}
-          <GridItem md={9} sm={9}>
+          <GridItem md={12} sm={12}>
             <GridContainer>
               {query.map((item) => {
                 const [qty, setQty] = React.useState(1);
@@ -161,18 +153,13 @@ export default function SectionProducts({ id, query }) {
                 return (
                   <>
                     {/* start of each item 1*/}
-                    <GridItem md={4} sm={4} key={item.name}>
-                      <Card plain product>
+                    <GridItem md={3} sm={6} key={item.name}>
+                      <Card  plain product style={{height: '90%'}}>
                         <CardHeader noShadow image>
-                          <a href="#pablo">
-                            <img src={suit1} alt=".." />
-                          </a>
+                          <img src={suit1} alt={item.name} />
                         </CardHeader>
                         <CardBody plain>
-                          <a href="#pablo">
-                            <h4 className={classes.cardTitle}>{item.name}</h4>
-                          </a>
-                          <p className={classes.description}></p>
+                          <h4 className={classes.cardTitle}>{item.name}</h4>
                         </CardBody>
                         <div
                           style={{
