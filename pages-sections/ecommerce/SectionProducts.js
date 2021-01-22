@@ -161,7 +161,7 @@ export default function SectionProducts({ id, query }) {
                 return (
                   <>
                     {/* start of each item 1*/}
-                    <GridItem md={4} sm={4}>
+                    <GridItem md={4} sm={4} key={item.name}>
                       <Card plain product>
                         <CardHeader noShadow image>
                           <a href="#pablo">

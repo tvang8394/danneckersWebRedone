@@ -107,34 +107,26 @@ export default function CardPaymentTest({ clover }) {
   const classes = useStyles();
 
   const validate = (values) => {
+    const errors = {};
     if (!values.fullName) {
-      formik.errors.fullName = "Required";
-    } else if (values.fullName) {
-      formik.errors.fullName = "";
-    }
+      errors.fullName = "Required";
+    } 
 
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      formik.errors.email = "Invalid email address";
-    } else if (values.email) {
-      formik.errors.email = "";
-    }
+      errors.email = "Invalid email address";
+    } 
 
     if (!values.address) {
-      formik.errors.address = "Required";
-    } else if (values.address) {
-      formik.errors.address = "";
-    }
+      errors.address = "Required";
+    } 
     if (!values.city) {
-      formik.errors.city = "Required";
-    } else if (values.city) {
-      formik.errors.city = "";
-    }
+      errors.city = "Required";
+    } 
 
     if (!values.zipCode) {
-      formik.errors.zipCode = "Required";
-    } else if (values.zipCode) {
-      formik.errors.zipCode = "";
-    }
+      errors.zipCode = "Required";
+    } 
+    return errors;
   };
 
   const formik = useFormik({

@@ -102,44 +102,34 @@ export default function SignUpPage({ ...rest }) {
   };
 
   const validate = (values) => {
+    const errors = {};
     if (!values.firstName) {
-      formik.errors.firstName = "Required";
-    } else if (values.firstName) {
-      formik.errors.firstName = "";
+      errors.firstName = "Required";
     }
+
     if (!values.lastName) {
-      formik.errors.lasttName = "Required";
-    } else if (values.lastName) {
-      formik.errors.lastName = "";
+      errors.lastName = "Required";
     }
 
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      formik.errors.email = "Invalid email address";
-    } else if (values.email) {
-      formik.errors.email = "";
+      errors.email = "Invalid email address";
     }
 
     if (!values.address) {
-      formik.errors.address = "Required";
-    } else if (values.address) {
-      formik.errors.address = "";
+      errors.address = "Required";
     }
     if (!values.city) {
-      formik.errors.city = "Required";
-    } else if (values.city) {
-      formik.errors.city = "";
+      errors.city = "Required";
     }
-
     if (!values.zipCode) {
-      formik.errors.zipCode = "Required";
-    } else if (values.zipCode) {
-      formik.errors.zipCode = "";
+      errors.zipCode = "Required";
     }
-    if (!values.password.length) {
-      formik.errors.password = "Required";
-    } else if (values.password < 5) {
-      formik.errors.password = "Needs at least 6 characters";
+    if (!values.password) {
+      errors.password = "Required";
+    } else if (values.password.length < 5) {
+      errors.password = "Needs at least 6 characters";
     }
+    return errors;
   };
 
   const formik = useFormik({
@@ -154,8 +144,8 @@ export default function SignUpPage({ ...rest }) {
       password: "",
     },
     validate,
+
     onSubmit: async (values) => {
-      console.log(values);
       let firebase = loadFirebase();
       firebase
         .auth()
@@ -166,7 +156,6 @@ export default function SignUpPage({ ...rest }) {
               `/api/createCustomer/${values.firstName}/${values.lastName}/${values.address}/${values.city}/${values.state}/${values.zipCode}/${values.email}`
             );
             const response = await createCustomer.json();
-            console.log(response);
             var newUser = firebase.auth().currentUser;
             newUser
               .updateProfile({
@@ -236,23 +225,6 @@ export default function SignUpPage({ ...rest }) {
                     </GridItem>
 
                     <GridItem xs={12} sm={5} md={5}>
-                      {/** 
-                      <div className={classes.textCenter}>
-                        <Button justIcon round color="twitter">
-                          <i className={classes.socials + " fab fa-twitter"} />
-                        </Button>
-                        {` `}
-
-                        <Button justIcon round color="facebook">
-                          <i
-                            className={classes.socials + " fab fa-facebook-f"}
-                          />
-                        </Button>
-                        {` `}
-                        <h4 className={classes.socialTitle}>or be classical</h4>
-                      </div>
-                      */}
-
                       <form
                         className={classes.form}
                         onSubmit={formik.handleSubmit}
@@ -275,7 +247,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.firstName && formik.errors.firstName ? (
-                          <div style={{color: 'red'}}>{formik.errors.firstName}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.firstName}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -294,8 +268,10 @@ export default function SignUpPage({ ...rest }) {
                             ),
                           }}
                         />
-                        {formik.touched.lastName && formik.errors.firstName ? (
-                          <div style={{color: 'red'}}>{formik.errors.firstName}</div>
+                        {formik.touched.lastName && formik.errors.lastName ? (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.lastName}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -315,7 +291,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.email && formik.errors.email ? (
-                          <div style={{color: 'red'}}>{formik.errors.email}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.email}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -335,7 +313,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.address && formik.errors.address ? (
-                          <div style={{color: 'red'}}>{formik.errors.address}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.address}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -355,7 +335,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.city && formik.errors.city ? (
-                          <div style={{color: 'red'}}>{formik.errors.city}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.city}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -375,7 +357,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.state && formik.errors.state ? (
-                          <div style={{color: 'red'}}>{formik.errors.state}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.state}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -395,7 +379,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.zipCode && formik.errors.zipCode ? (
-                          <div style={{color: 'red'}}>{formik.errors.zipCode}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.zipCode}
+                          </div>
                         ) : null}
                         <TextField
                           className={classes.margin}
@@ -415,7 +401,9 @@ export default function SignUpPage({ ...rest }) {
                           }}
                         />
                         {formik.touched.password && formik.errors.password ? (
-                          <div style={{color: 'red'}}>{formik.errors.password}</div>
+                          <div style={{ color: "red" }}>
+                            {formik.errors.password}
+                          </div>
                         ) : null}
                         <div className={classes.textCenter}>
                           <Button round color="primary" type="submit">
