@@ -1,6 +1,5 @@
 import React from "react";
 // nodejs library that concatenates classes
-import classNames from "classnames";
 // plugin that creates slider
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -50,7 +49,6 @@ export default function SectionProducts({ sectionId, query }) {
   const classes = useStyles();
   const priceFormat = (price) => {
     const newPrice = price.toString();
-    const length = newPrice.length;
     if (newPrice.length === 2) {
       let myPrice = "." + newPrice.slice(0, 1) + newPrice.slice(1);
       price = myPrice;
@@ -85,7 +83,7 @@ export default function SectionProducts({ sectionId, query }) {
       taxRate = 0.10375;
     } else if (sectionId === "Grocery") {
       taxRate = 0.7875;
-    }
+    } 
 
     const item = {
       name,
@@ -160,9 +158,6 @@ export default function SectionProducts({ sectionId, query }) {
           <GridItem md={12} sm={12}>
             <GridContainer>
               {query.map((item) => {
-                {
-                  console.log(item);
-                }
                 const [qty, setQty] = React.useState(1);
                 const newPrice = priceFormat(item.price);
                 return (

@@ -121,6 +121,9 @@ export default function SignUpPage({ ...rest }) {
     if (!values.city) {
       errors.city = "Required";
     }
+    if (!values.state) {
+      errors.state = "Required";
+    }
     if (!values.zipCode) {
       errors.zipCode = "Required";
     }

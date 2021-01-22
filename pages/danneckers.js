@@ -15,6 +15,7 @@ import GridItem from "components/Grid/GridItem.js";
 import SectionDescription from "pages-sections/presentation-page/SectionDescription.js";
 import SectionCards from "pages-sections/presentation-page/SectionCards.js";
 import SectionContent from "pages-sections/presentation-page/SectionContent.js";
+import SectionPoducts from '../pages-sections/ecommerce/SectionProducts'
 import MyFooter from "../components/MyFooter";
 import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/presentationStyle.js";
 import {
