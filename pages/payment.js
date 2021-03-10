@@ -70,6 +70,7 @@ export default function ShoppingCartPage() {
           const createDeliveryCharge = await fetch(
             `/api/createLineItem/${order.id}/EEZJ91W5NC8BT`
           );
+          
           const response = await createDeliveryCharge.json();
           console.log(response);
         }

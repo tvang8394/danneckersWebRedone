@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
 import MuiAlert from "@material-ui/lab/Alert";
-
+import Pagination from "@material-ui/lab/Pagination";
 // core components
 import Accordion from "components/Accordion/Accordion.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -19,6 +19,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
 import Snackbar from "@material-ui/core/Snackbar";
 import suit1 from "assets/img/examples/suit-1.jpg";
+import liquorimage from "assets/img/items/2Ginger 1.75L.jpg";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../store/actions/addItemAction";
 
@@ -34,7 +35,24 @@ export default function SectionProducts({ sectionId, query }) {
   const dispatch = useDispatch();
   const [checked, setChecked] = React.useState([1, 9, 27]);
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [imageSrc, setImageSrc] = React.useState(``);
 
+  const newQuery = query;
+  const [itemsPerPage, setItemsPerPage] = React.useState(20);
+  const numberOfPages = Math.ceil(newQuery.length / itemsPerPage) - 1;
+  const [itemQuery, setItemQuery] = React.useState(
+    newQuery.slice(0, itemsPerPage)
+  );
+
+  console.log((page - 1) * itemsPerPage);
+  console.log("slice(2): " + page * itemsPerPage);
+  const handleChange = (event, value) => {
+    setPage(value);
+    setItemQuery(
+      newQuery.slice((value - 1) * itemsPerPage, value * itemsPerPage)
+    );
+  };
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -83,7 +101,7 @@ export default function SectionProducts({ sectionId, query }) {
       taxRate = 0.10375;
     } else if (sectionId === "Grocery") {
       taxRate = 0.7875;
-    } 
+    }
 
     const item = {
       name,
@@ -98,6 +116,16 @@ export default function SectionProducts({ sectionId, query }) {
     setOpen(true);
   };
 
+  const setItemImage = (imageName) => {
+    try {
+      const imagePresentSrc = require(`../../assets/img/items/${imageName}.jpg`);
+      console.log('image' + imageName)
+      return imagePresentSrc;
+    } catch (error) {
+      const imageSrc = require(`../../assets/img/items/placeholder.jpg`);
+      return imageSrc;
+    }
+  };
   return (
     <div className={classes.section}>
       <div className={classes.container}>
@@ -154,19 +182,22 @@ export default function SectionProducts({ sectionId, query }) {
               </CardBody>
             </Card>
           </GridItem>
+
           {/* end of menu */}
           <GridItem md={12} sm={12}>
             <GridContainer>
-              {query.map((item) => {
+              {itemQuery.map((item) => {
                 const [qty, setQty] = React.useState(1);
                 const newPrice = priceFormat(item.price);
+                let newItem = setItemImage(item.name);
+                console.log("newItem " + newItem);
                 return (
                   <>
                     {/* start of each item 1*/}
                     <GridItem md={3} sm={6} key={item.name}>
                       <Card plain product style={{ height: "90%" }}>
                         <CardHeader noShadow image>
-                          <img src={suit1} alt={item.name} />
+                          <img src={newItem} alt={item.name} id="itemImage" />
                         </CardHeader>
                         <CardBody plain>
                           <h4 className={classes.cardTitle}>{item.name}</h4>
@@ -232,10 +263,17 @@ export default function SectionProducts({ sectionId, query }) {
                         </CardFooter>
                       </Card>
                     </GridItem>
+
                     {/*end of each item 1*/}
                   </>
                 );
               })}
+              <Pagination
+                count={numberOfPages}
+                color="secondary"
+                onChange={handleChange}
+                page={page}
+              />
             </GridContainer>
           </GridItem>
         </GridContainer>

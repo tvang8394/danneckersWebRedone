@@ -22,11 +22,6 @@ export default function MyFooter() {
           <div className={classes.pullCenter}>
             <List className={classes.list}>
               <ListItem className={classes.inlineBlock}>
-                <a href="/" target="_blank" className={classes.block}>
-                  Policy
-                </a>
-              </ListItem>
-              <ListItem className={classes.inlineBlock}>
                 <a href="/contact-us" className={classes.block}>
                   Contact Us
                 </a>

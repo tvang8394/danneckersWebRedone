@@ -15,7 +15,7 @@ export default async function getItem(req, res) {
   }
   const items = await response.json();
 
-  return items['elements'];
+  return items["elements"];
 }
 
 export async function getBeerItems(req, res) {
@@ -35,7 +35,7 @@ export async function getBeerItems(req, res) {
 
 export async function getLiquorItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.LIQUOR}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.LIQUOR}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}&limit=1000`,
     {
       method: "GET",
       headers: {
@@ -50,7 +50,7 @@ export async function getLiquorItems(req, res) {
 
 export async function getWineItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.WINE}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.WINE}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}&limit=1000`,
     {
       method: "GET",
       headers: {
@@ -65,7 +65,7 @@ export async function getWineItems(req, res) {
 
 export async function getGroceryNonTaxItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_NONTAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_NONTAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}&limit=1000`,
     {
       method: "GET",
       headers: {
@@ -73,7 +73,6 @@ export async function getGroceryNonTaxItems(req, res) {
       },
     }
   );
-  
 
   const items = await response.json();
   return items["elements"];
@@ -81,7 +80,7 @@ export async function getGroceryNonTaxItems(req, res) {
 
 export async function getTobaccoItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.TOBACCO}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.TOBACCO}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}&limit=1000`,
     {
       method: "GET",
       headers: {
@@ -89,7 +88,6 @@ export async function getTobaccoItems(req, res) {
       },
     }
   );
-  
 
   const items = await response.json();
   return items["elements"];
@@ -97,7 +95,7 @@ export async function getTobaccoItems(req, res) {
 
 export async function getGroceryTaxItems(req, res) {
   const response = await fetch(
-    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_TAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}`,
+    `https://api.clover.com/v3/merchants/${process.env.NEXT_PUBLIC_CLIENT_ID}/categories/${process.env.GROCERY_TAX}/items?access_token=${process.env.NEXT_PUBLIC_CLOVER_KEY}&limit=1000`,
     {
       method: "GET",
       headers: {
@@ -105,7 +103,6 @@ export async function getGroceryTaxItems(req, res) {
       },
     }
   );
-  
 
   const items = await response.json();
   return items["elements"];

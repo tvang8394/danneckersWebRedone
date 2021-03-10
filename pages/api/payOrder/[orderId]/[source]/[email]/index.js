@@ -21,6 +21,6 @@ export default async function payOrder(req, res) {
     body: jsonPayment,
   });
   const data = await response.json();
+  res.send(data)
   console.log(data);
-  console.log(orderId + source + email);
 }

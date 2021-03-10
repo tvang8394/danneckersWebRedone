@@ -100,7 +100,14 @@ export default function CardPaymentTest({ clover }) {
       `/api/payOrder/${order.id}/${token}/${email}`
     );
     const paymentResponse = await sendPayment.json();
-    console.log(paymentResponse);
+    console.log(paymentResponse.error.message)
+    if(paymentResponse.error.message = 'card_decline') {
+      const displayCardDecline = document.getElementById('card-decline-error')
+      displayCardDecline.style.display = 'block';
+      setTimeout(() => {
+        displayCardDecline.style.display = 'none';
+      }, 10000);
+    }
     // form.submit();
   }
   const { order } = useSelector((state) => state.order);
@@ -278,6 +285,7 @@ export default function CardPaymentTest({ clover }) {
                 id="card-submit-errors"
                 role="alert"
               ></div>
+              <div id='card-decline-error' style={{color: 'red',display: 'none'}}>Card Declined</div>
             </form>
           </div>
         </Grid>
