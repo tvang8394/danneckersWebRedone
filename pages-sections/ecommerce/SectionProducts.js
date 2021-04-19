@@ -119,7 +119,7 @@ export default function SectionProducts({ sectionId, query }) {
   const setItemImage = (imageName) => {
     try {
       const imagePresentSrc = require(`../../assets/img/items/${imageName}.jpg`);
-      console.log('image' + imageName)
+      console.log("image" + imageName);
       return imagePresentSrc;
     } catch (error) {
       const imageSrc = require(`../../assets/img/items/placeholder.jpg`);
@@ -185,6 +185,12 @@ export default function SectionProducts({ sectionId, query }) {
 
           {/* end of menu */}
           <GridItem md={12} sm={12}>
+            <Pagination
+              count={numberOfPages}
+              color="secondary"
+              onChange={handleChange}
+              page={page}
+            />
             <GridContainer>
               {itemQuery.map((item) => {
                 const [qty, setQty] = React.useState(1);

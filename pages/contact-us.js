@@ -101,7 +101,7 @@ export default function ContactUsPage() {
                 <InfoArea
                   className={classes.info}
                   title="Find us at"
-                  description={<p>793 Randolf Ave, Saint Paul, MN, 55106 </p>}
+                  description={<p>793 Randolph Ave, Saint Paul, MN, 55106 </p>}
                   icon={PinDrop}
                   iconColor="primary"
                 />

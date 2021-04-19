@@ -74,18 +74,31 @@ export default function SectionProducts({ beer, liquor, wine, grocery }) {
 
   const classes = useStyles();
 
+
+  const setItemImage = (imageName) => {
+    try {
+      const imagePresentSrc = require(`../../assets/img/items/${imageName}.jpg`);
+      console.log('image' + imageName)
+      return imagePresentSrc;
+    } catch (error) {
+      const imageSrc = require(`../../assets/img/items/placeholder.jpg`);
+      return imageSrc;
+    }
+  };
+
   const renderItems = (item) => {
     return (
       <GridContainer>
         {item.map((items) => {
           const [qty, setQty] = React.useState(1);
           const newPrice = priceFormat(items.price);
+          let newItem = setItemImage(items.name);
           return (
             <GridItem md={4} sm={6}>
               <Card plain product style={{ height: "90%" }}>
                 <CardHeader noShadow image>
                   <Badge badgeContent={qty} color="secondary">
-                    <img src={item1} alt=".." />
+                    <img src={newItem} alt=".." />
                   </Badge>
                 </CardHeader>
                 <CardBody plain>
